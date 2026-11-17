@@ -100,7 +100,7 @@ h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
 
 /* ---------- layout ---------- */
 .grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; margin-top: 24px; align-items: start; }
-@media (max-width: 960px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 960px) { .grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "table" "form" "sugg"; } }
 .card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 20px; }
 .card h2 { font-family: "Fraunces", serif; font-size: 22px; margin: 0 0 2px; }
 .card .sub { color: var(--ink-soft); font-size: 14px; margin: 6px 0 14px; }
@@ -186,6 +186,7 @@ h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
 .tip b { font-family: "Fraunces", serif; font-size: 15px; display: block; }
 .tip .note { opacity: .85; margin-top: 4px; }
 .tip-actions { display: flex; gap: 6px; margin-top: 8px; }
+.cancel-edit[hidden] { display: none; }
 .cancel-edit { appearance: none; border: 0; background: none; font: inherit; font-size: 14px; color: var(--ink-soft); text-decoration: underline; cursor: pointer; display: block; margin: 10px auto 0; }
 .form-editing { box-shadow: 0 0 0 3px var(--pumpkin), var(--shadow); }
 
@@ -208,7 +209,14 @@ input:focus, select:focus { outline: none; border-color: var(--pumpkin); box-sha
 .ok { color: var(--sage); font-weight: 700; font-size: 14px; margin-top: 10px; min-height: 1em; }
 
 /* ---------- suggestions ---------- */
-.side-stack { display: grid; gap: 22px; }
+@media (min-width: 961px) { .grid { grid-template-areas: "table form" "sugg form"; } }
+.area-table { grid-area: table; }
+.area-form { grid-area: form; }
+.area-sugg { grid-area: sugg; }
+@media (min-width: 961px) and (min-height: 720px) { .area-form { position: sticky; top: 16px; } }
+.sugg-cols { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; }
+.sugg-cols > div > h3:first-child { margin-top: 0; }
+@media (max-width: 700px) { .sugg-cols { grid-template-columns: minmax(0, 1fr); gap: 0; } .sugg-cols > div > h3:first-child { margin-top: 18px; } }
 .most-needed { color: #fff; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; background: linear-gradient(135deg, var(--pumpkin), var(--cranberry)); }
 .most-needed small { text-transform: uppercase; letter-spacing: .1em; font-size: 11px; opacity: .9; font-weight: 700; }
 .most-needed .big { font-family: "Caveat", cursive; font-size: 32px; line-height: 1.05; font-weight: 700; }
@@ -316,7 +324,7 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 
   <div class="grid">
     <!-- TABLE -->
-    <section aria-labelledby="tableHeading">
+    <section class="area-table" aria-labelledby="tableHeading">
       <h2 id="tableHeading" class="sr">The dinner table</h2>
       <div class="room" id="room">
         <div class="table" id="table">
@@ -327,9 +335,8 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
       </div>
     </section>
 
-    <!-- SIDEBAR -->
-    <div class="side-stack">
-      <form class="card" id="form" autocomplete="on">
+    <!-- FORM (pinned on desktop) -->
+      <form class="card area-form" id="form" autocomplete="on">
         <h2 id="formTitle">Bring a dish</h2>
         <p class="sub">Add yours and it lands on the table.</p>
         <label for="who">Your name</label>
@@ -356,20 +363,24 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
         <div class="ok" id="ok" role="status"></div>
       </form>
 
-      <section class="card" aria-labelledby="sugHeading">
+      <!-- SUGGESTIONS -->
+      <section class="card area-sugg" aria-labelledby="sugHeading">
         <h2 id="sugHeading">What's still needed</h2>
         <p class="sub">Tap one to fill in the form. ★ = a must-have.</p>
-        <div id="mostNeeded"></div>
-        <div class="chips" id="needChips"></div>
-
-
-        <h3>Spread check</h3>
-        <div class="meters" id="meters"></div>
-        <ul class="tips" id="tips"></ul>
-        <h3>Already covered</h3>
-        <div class="chips" id="doneChips"></div>
+        <div class="sugg-cols">
+          <div>
+            <div id="mostNeeded"></div>
+            <div class="chips" id="needChips"></div>
+          </div>
+          <div>
+            <h3>Spread check</h3>
+            <div class="meters" id="meters"></div>
+            <ul class="tips" id="tips"></ul>
+            <h3>Already covered</h3>
+            <div class="chips" id="doneChips"></div>
+          </div>
+        </div>
       </section>
-    </div>
   </div>
 
   <section class="card list-card" aria-labelledby="listHeading">
@@ -463,7 +474,7 @@ const NEEDS = [
   { label: "Stuffing",               cat: "Side",      must: true,  emoji: "🥣", match: ["stuffing", "dressing", "cornbread stuffing", "cornbread dressing"] },
   { label: "Gravy",                  cat: "Side",      must: true,  emoji: "🥄", match: ["gravy"] },
   { label: "Cranberry sauce",        cat: "Side",      must: true,  emoji: "🍒", match: ["cranberr"] },
-  { label: "Green bean casserole",   cat: "Side",      must: false, emoji: "🫛", match: ["green bean", "green-bean", "string bean", "haricot"] },
+  { label: "Green bean casserole",   cat: "Side",      must: false, emoji: "🥘", match: ["green bean", "green-bean", "string bean", "haricot"] },
   { label: "Sweet potato casserole", cat: "Side",      must: false, emoji: "🍠", match: ["sweet potato", "yam", "candied"] },
   { label: "Mac & cheese",           cat: "Side",      must: false, emoji: "🧀", match: ["mac ", "mac&", "macaroni", "mac and"] },
   { label: "Scalloped potatoes",     cat: "Side",      must: false, emoji: "🥔", match: ["scalloped", "au gratin", "potato gratin", "funeral potato", "cheesy potato", "hasselback"] },
@@ -477,7 +488,7 @@ const NEEDS = [
   { label: "Wild rice pilaf",        cat: "Side",      must: false, emoji: "🍚", match: ["wild rice", "rice", "pilaf"] },
   { label: "Green salad",            cat: "Side",      must: false, emoji: "🥗", match: ["salad", "slaw"] },
   { label: "Waldorf salad",          cat: "Side",      must: false, emoji: "🍏", match: ["waldorf"] },
-  { label: "Jell-O salad",           cat: "Side",      must: false, emoji: "🟥", match: ["jell", "jello", "ambrosia", "fluff", "congealed"] },
+  { label: "Jell-O salad",           cat: "Side",      must: false, emoji: "🍮", match: ["jell", "jello", "ambrosia", "fluff", "congealed"] },
   // Bread
   { label: "Dinner rolls",           cat: "Bread",     must: true,  emoji: "🥖", match: ["roll", "bread", "croissant", "parker house", "crescent"] },
   { label: "Cornbread",              cat: "Bread",     must: false, emoji: "🌽", match: ["cornbread", "corn bread", "corn muffin"] },
@@ -487,7 +498,7 @@ const NEEDS = [
   { label: "Deviled eggs",           cat: "Appetizer", must: false, emoji: "🥚", match: ["deviled", "egg"] },
   { label: "Dip & chips",            cat: "Appetizer", must: false, emoji: "🥨", match: ["dip", "chip", "salsa", "hummus", "guac", "spinach artichoke", "spinach dip", "artichoke"] },
   { label: "Veggie tray",            cat: "Appetizer", must: false, emoji: "🥒", match: ["veggie tray", "vegetable tray", "crudit"] },
-  { label: "Relish tray",            cat: "Appetizer", must: false, emoji: "🫒", match: ["relish", "pickle", "olive"] },
+  { label: "Relish tray",            cat: "Appetizer", must: false, emoji: "🥒", match: ["relish", "pickle", "olive"] },
   { label: "Pigs in a blanket",      cat: "Appetizer", must: false, emoji: "🌭", match: ["pigs in", "sausage roll", "little smokies"] },
   // Desserts
   { label: "Pumpkin pie",            cat: "Dessert",   must: true,  emoji: "🥧", match: ["pumpkin pie", "pumpkin"] },
@@ -507,14 +518,14 @@ const NEEDS = [
   { label: "Whipped cream",          cat: "Dessert",   must: false, emoji: "🍦", match: ["whip", "cool whip"] },
   { label: "Vanilla ice cream",      cat: "Dessert",   must: false, emoji: "🍨", match: ["ice cream", "gelato"] },
   // Drinks
-  { label: "Alcohol-free drinks",    cat: "Drinks",    must: true,  emoji: "🧃", match: ["soda", "juice", "seltzer", "lemonade", "sparkling water", "punch", "mocktail", "brus"] },
+  { label: "Alcohol-free drinks",    cat: "Drinks",    must: true,  emoji: "🥤", match: ["soda", "juice", "seltzer", "lemonade", "sparkling water", "punch", "mocktail", "brus"] },
   { label: "Apple cider",            cat: "Drinks",    must: false, emoji: "🍎", match: ["cider", "apple cider", "hot cider"] },
   { label: "Wine",                   cat: "Drinks",    must: false, emoji: "🍷", match: ["wine", "prosecco", "champagne"] },
   { label: "Beer",                   cat: "Drinks",    must: false, emoji: "🍺", match: ["beer", "ipa", "lager"] },
   { label: "Gløgg",                  cat: "Drinks",    must: false, emoji: "🍷", hint: "hot spiced wine, perfect for a snowy night", match: ["gløgg", "glogg", "mulled"] },
   { label: "Coffee",                 cat: "Drinks",    must: false, emoji: "☕", match: ["coffee", "kaffe"] },
   // Other
-  { label: "Ice",                    cat: "Other",     must: false, emoji: "🧊", match: ["bag of ice", "ice bag", "ice"] },
+  { label: "Ice",                    cat: "Other",     must: false, emoji: "❄️", match: ["bag of ice", "ice bag", "ice"] },
   { label: "Plates & napkins",       cat: "Other",     must: false, emoji: "🧻", match: ["plate", "napkin", "cutler", "utensil", "cups", "foil", "container"] },
 ];
 
@@ -523,13 +534,13 @@ const EMOJI_HINTS = [
   ["brownie", "🍫"], ["chocolate", "🍫"], ["sjokolade", "🍫"], ["wine", "🍷"], ["beer", "🍺"], ["cider", "🍎"], ["coffee", "☕"], ["kaffe", "☕"],
   ["salad", "🥗"], ["potato", "🥔"], ["sweet potato", "🍠"], ["yam", "🍠"], ["corn", "🌽"], ["bread", "🍞"], ["brød", "🍞"],
   ["roll", "🥖"], ["biscuit", "🥐"], ["cheese", "🧀"], ["mac", "🧀"], ["egg", "🥚"], ["carrot", "🥕"],
-  ["bean", "🫛"], ["brussel", "🥬"], ["cranberr", "🍒"], ["apple", "🍎"], ["pumpkin", "🎃"], ["soup", "🍲"],
+  ["bean", "🥘"], ["brussel", "🥬"], ["cranberr", "🍒"], ["apple", "🍎"], ["pumpkin", "🎃"], ["soup", "🍲"],
   ["dip", "🥣"], ["chip", "🥔"], ["gravy", "🥄"], ["stuffing", "🥣"], ["ice cream", "🍨"], ["whip", "🍦"],
-  ["cherry", "🍒"], ["banana", "🍌"], ["cheesecake", "🍰"], ["spinach", "🥬"], ["collard", "🥬"], ["rice", "🍚"], ["squash", "🎃"], ["jell", "🟥"], ["pickle", "🥒"], ["pigs in", "🌭"], ["cornbread", "🌽"], ["sweet potato pie", "🍠"], ["pudding", "🍮"], ["soda", "🥤"], ["juice", "🧃"], ["punch", "🍹"], ["napkin", "🧻"], ["plate", "🍽️"],
-  ["ribbe", "🥓"], ["pinnekjøtt", "🍖"], ["pinnekjott", "🍖"], ["medister", "🧆"], ["lutefisk", "🐟"], ["sild", "🐟"], ["laks", "🐟"], ["salmon", "🐟"],
-  ["surkål", "🥬"], ["rødkål", "🥬"], ["lefse", "🫓"], ["brunost", "🧀"], ["riskrem", "🍚"], ["risgrøt", "🍚"],
+  ["cherry", "🍒"], ["banana", "🍌"], ["cheesecake", "🍰"], ["spinach", "🥬"], ["collard", "🥬"], ["rice", "🍚"], ["squash", "🎃"], ["jell", "🍮"], ["pickle", "🥒"], ["pigs in", "🌭"], ["cornbread", "🌽"], ["sweet potato pie", "🍠"], ["pudding", "🍮"], ["soda", "🥤"], ["juice", "🥤"], ["punch", "🍹"], ["napkin", "🧻"], ["plate", "🍽️"],
+  ["ribbe", "🥓"], ["pinnekjøtt", "🍖"], ["pinnekjott", "🍖"], ["medister", "🍖"], ["lutefisk", "🐟"], ["sild", "🐟"], ["laks", "🐟"], ["salmon", "🐟"],
+  ["surkål", "🥬"], ["rødkål", "🥬"], ["lefse", "🍞"], ["brunost", "🧀"], ["riskrem", "🍚"], ["risgrøt", "🍚"],
   ["pepperkake", "🍪"], ["krumkake", "🍦"], ["multe", "🍨"], ["kransekake", "🎂"], ["gløgg", "🍷"], ["glogg", "🍷"],
-  ["akevitt", "🥃"], ["aquavit", "🥃"], ["juleøl", "🍺"], ["julebrus", "🥤"], ["tyttebær", "🫐"], ["kålrabi", "🧡"],
+  ["akevitt", "🥃"], ["aquavit", "🥃"], ["juleøl", "🍺"], ["julebrus", "🥤"], ["tyttebær", "🍇"], ["kålrabi", "🧡"],
 ];
 
 const norm = s => " " + s.toLowerCase().replace(/[^\p{L}\p{N}& ]+/gu, " ").replace(/\s+/g, " ") + " ";
