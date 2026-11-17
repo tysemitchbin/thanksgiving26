@@ -185,7 +185,9 @@ h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
 }
 .tip b { font-family: "Fraunces", serif; font-size: 15px; display: block; }
 .tip .note { opacity: .85; margin-top: 4px; }
-.tip button { margin-top: 8px; }
+.tip-actions { display: flex; gap: 6px; margin-top: 8px; }
+.cancel-edit { appearance: none; border: 0; background: none; font: inherit; font-size: 14px; color: var(--ink-soft); text-decoration: underline; cursor: pointer; display: block; margin: 10px auto 0; }
+.form-editing { box-shadow: 0 0 0 3px var(--pumpkin), var(--shadow); }
 
 /* ---------- form ---------- */
 label { display: block; font-weight: 700; font-size: 13px; margin: 12px 0 4px; letter-spacing: .02em; }
@@ -328,7 +330,7 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
     <!-- SIDEBAR -->
     <div class="side-stack">
       <form class="card" id="form" autocomplete="on">
-        <h2>Bring a dish</h2>
+        <h2 id="formTitle">Bring a dish</h2>
         <p class="sub">Add yours and it lands on the table.</p>
         <label for="who">Your name</label>
         <input id="who" name="who" required maxlength="30" placeholder="e.g. Sam">
@@ -350,6 +352,7 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
             <input id="note" name="note" maxlength="80" placeholder="vegan, nut-free, needs oven…">
           </div>
         <button class="btn" id="submitBtn" type="submit">🍽️ Put it on the table</button>
+        <button class="cancel-edit" id="cancelEdit" type="button" hidden>Cancel editing</button>
         <div class="ok" id="ok" role="status"></div>
       </form>
 
@@ -584,6 +587,19 @@ const api = {
     if (!r.ok) throw new Error(await r.text());
     return (await r.json())[0];
   },
+  async update(id, row) {
+    if (!REMOTE) {
+      const all = safeGet(LS_KEY, []).map(d => d.id === id ? { ...d, ...row } : d);
+      safeSet(LS_KEY, all); return all.find(d => d.id === id);
+    }
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?id=eq.${encodeURIComponent(id)}`, {
+      method: "PATCH", headers: { ...api.headers(), Prefer: "return=representation" }, body: JSON.stringify(row),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    const out = await r.json();
+    if (!out.length) throw new Error("That dish isn't on the table anymore. Someone may have removed it.");
+    return out[0];
+  },
   async remove(id) {
     if (!REMOTE) { safeSet(LS_KEY, safeGet(LS_KEY, []).filter(d => d.id !== id)); return; }
     const r = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?id=eq.${encodeURIComponent(id)}`, { method: "DELETE", headers: api.headers() });
@@ -714,15 +730,14 @@ function showTip(id) {
   tip.className = "tip"; tip.id = "tip";
   const bits = [d.serves ? `serves ${esc(d.serves)}` : "", d.note ? esc(d.note) : ""].filter(Boolean).join(" · ");
   tip.innerHTML = `<b>${esc(d.dish)}</b>${CAT[d.cat]?.emoji || ""} ${esc(CAT[d.cat]?.label.replace(/s$/, "") || d.cat)} · from ${esc(d.who)}${bits ? `<div class="note">${bits}</div>` : ""}` +
-    (mine.has(d.id) || !REMOTE ? `<button class="btn-sm" data-remove="${esc(d.id)}">Remove</button>` : "");
+    `<div class="tip-actions"><button class="btn-sm" type="button" data-edit="${esc(d.id)}">✏️ Edit</button><button class="btn-sm" type="button" data-remove="${esc(d.id)}">✕ Remove</button></div>`;
   const left = Math.min(Math.max(parseFloat(el.style.left), 115), $("table").clientWidth - 115);
   tip.style.left = `${left}px`;
   tip.style.top = `${parseFloat(el.style.top) - parseFloat(el.style.getPropertyValue("--p")) / 2}px`;
-  tip.addEventListener("click", e => e.stopPropagation());
   $("table").appendChild(tip);
 }
 function hideTip() { $("tip")?.remove(); }
-document.addEventListener("click", hideTip);
+document.addEventListener("click", e => { if (!e.target.closest("#tip")) hideTip(); });
 document.addEventListener("keydown", e => e.key === "Escape" && hideTip());
 
 /* ---- suggestions ---- */
@@ -789,7 +804,6 @@ function renderList() {
     : "Nothing yet. Every course is wide open!";
   const scale = Math.max(1, new Set(dishes.map(d => d.who.trim())).size / 10);
   const openNeeds = NEEDS.filter(n => !coveredBy(n, dishes).length).sort((x, y) => y.must - x.must);
-  const canRemove = d => mine.has(d.id) || !REMOTE;
   const body = CATEGORIES.map(c => {
     const ds = dishes.filter(d => d.cat === c.id);
     const target = Math.ceil(c.target * scale);
@@ -802,7 +816,7 @@ function renderList() {
         <td class="who">${esc(d.who)}</td>
         <td class="num">${d.serves ? esc(d.serves) : "–"}</td>
         <td class="note">${esc(d.note || "")}</td>
-        <td class="rm">${canRemove(d) ? `<button class="btn-sm" data-remove="${esc(d.id)}" aria-label="Remove ${esc(d.dish)}">✕</button>` : ""}</td>
+        <td class="rm"><button class="btn-sm" type="button" data-edit="${esc(d.id)}" aria-label="Edit ${esc(d.dish)}">✏️</button> <button class="btn-sm" type="button" data-remove="${esc(d.id)}" aria-label="Remove ${esc(d.dish)}">✕</button></td>
       </tr>`;
     }).join("");
     const openRow = open.length && (ds.length < target || open.some(n => n.must)) ? `<tr class="open-row"><td colspan="5">${ds.length ? "Still open:" : "Nobody yet. Ideas:"}
@@ -824,6 +838,33 @@ function renderList() {
    Interactions
    ============================================================ */
 let catTouched = false;
+let editingId = null;
+function startEdit(id) {
+  const d = dishes.find(x => x.id === id); if (!d) return;
+  editingId = id; hideTip();
+  $("who").value = d.who; $("dish").value = d.dish; $("cat").value = d.cat;
+  $("serves").value = d.serves ?? ""; $("note").value = d.note ?? "";
+  catTouched = true;
+  $("formTitle").textContent = "Edit a dish";
+  $("submitBtn").textContent = "💾 Save changes";
+  $("cancelEdit").hidden = false;
+  $("form").classList.add("form-editing");
+  checkDup();
+  $("form").scrollIntoView({ behavior: "smooth", block: "center" });
+  $("dish").focus();
+}
+function stopEdit() {
+  editingId = null;
+  ["dish", "serves", "note"].forEach(id => $(id).value = "");
+  $("who").value = safeGet("friendsgiving-name", "");
+  $("cat").value = "Side"; catTouched = false;
+  $("dupWarn").innerHTML = "";
+  $("formTitle").textContent = "Bring a dish";
+  $("submitBtn").textContent = "🍽️ Put it on the table";
+  $("cancelEdit").hidden = true;
+  $("form").classList.remove("form-editing");
+}
+$("cancelEdit").addEventListener("click", stopEdit);
 document.addEventListener("click", async e => {
   if (e.target.closest("[data-toggle-ideas]")) { showAllIdeas = !showAllIdeas; render(); return; }
   const pick = e.target.closest("[data-pick]");
@@ -835,6 +876,8 @@ document.addEventListener("click", async e => {
     ($("who").value ? $("dish") : $("who")).focus();
     return;
   }
+  const ed = e.target.closest("[data-edit]");
+  if (ed) { e.stopPropagation(); startEdit(ed.dataset.edit); return; }
   const rm = e.target.closest("[data-remove]");
   if (rm) {
     e.stopPropagation();
@@ -843,6 +886,7 @@ document.addEventListener("click", async e => {
     try {
       await api.remove(d.id);
       mine.delete(d.id); safeSet(MINE_KEY, [...mine]);
+      if (editingId === d.id) stopEdit();
       hideTip(); await refresh();
     } catch (err) { alert("Couldn't remove that: " + err.message); }
   }
@@ -858,7 +902,7 @@ function checkDup() {
   const text = $("dish").value.trim();
   if (text.length < 3) { $("dupWarn").innerHTML = ""; return; }
   const sameNeed = bestNeed(text, $("cat").value);
-  const clash = dishes.filter(d => norm(d.dish).trim() === norm(text).trim() || (sameNeed && coveredBy(sameNeed, [d]).length));
+  const clash = dishes.filter(d => d.id !== editingId).filter(d => norm(d.dish).trim() === norm(text).trim() || (sameNeed && coveredBy(sameNeed, [d]).length));
   $("dupWarn").innerHTML = clash.length
     ? `<div class="warn">Heads up: <b>${esc(clash.map(d => d.who).join(", "))}</b> ${clash.length > 1 ? "are" : "is"} already bringing <b>${esc(clash[0].dish)}</b>. Doubles are fine, just checking!</div>` : "";
 }
@@ -876,13 +920,17 @@ $("form").addEventListener("submit", async e => {
   if (!row.who || !row.dish) return;
   $("submitBtn").disabled = true;
   try {
-    const rec = await api.add(row);
-    mine.add(rec.id); safeSet(MINE_KEY, [...mine]); safeSet("friendsgiving-name", row.who);
-    justAdded = rec.id;
-    ["dish", "serves", "note"].forEach(id => $(id).value = "");
-    $("dupWarn").innerHTML = ""; catTouched = false;
-    $("cat").value = "Side";
-    $("ok").textContent = `✨ ${row.dish} is on the table. Thanks, ${row.who}! 🦃`;
+    if (editingId) {
+      await api.update(editingId, row);
+      stopEdit();
+      $("ok").textContent = `✏️ Updated ${row.dish}.`;
+    } else {
+      const rec = await api.add(row);
+      mine.add(rec.id); safeSet(MINE_KEY, [...mine]); safeSet("friendsgiving-name", row.who);
+      justAdded = rec.id;
+      stopEdit();
+      $("ok").textContent = `✨ ${row.dish} is on the table. Thanks, ${row.who}! 🦃`;
+    }
     setTimeout(() => $("ok").textContent = "", 5000);
     await refresh();
     $("room").scrollIntoView({ behavior: "smooth", block: "center" });
