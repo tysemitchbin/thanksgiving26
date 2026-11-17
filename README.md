@@ -1,7 +1,9 @@
-# 🦃 Friendsgiving Table
+# 🦃 Thanksgiving × Julebord 🇳🇴
 
-A one-page sign-up site: friends add the dish they're bringing and it lands on a
-drawing of the dinner table. The sidebar suggests what's still missing.
+A one-page sign-up site for our Eidsvoll melting-pot feast: friends add the dish they're
+bringing (🇺🇸 Thanksgiving, 🇳🇴 julebord, or 🌍 family recipe) and it lands on a drawing
+of the dinner table. The sidebar suggests what's still missing from both traditions
+and shows how balanced the melting pot is.
 
 ## Customize
 Edit the `EVENT` block at the top of `index.html` (title, date, place).

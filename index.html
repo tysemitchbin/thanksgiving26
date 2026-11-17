@@ -3,28 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Friendsgiving Table</title>
-<meta name="description" content="Sign up to bring a dish and watch it land on the table.">
+<title>Thanksgiving × Julebord</title>
+<meta name="description" content="Sign up to bring a dish to our Thanksgiving-meets-julebord feast in Eidsvoll.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦃</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-/* ============================================================
-   ✏️  EDIT THESE TO CUSTOMIZE YOUR PARTY
-   ============================================================ */
-</style>
 <script>
+  /* ============================================================
+     ✏️  EDIT THESE TO CUSTOMIZE YOUR PARTY
+     ============================================================ */
   const EVENT = {
-    title: "Friendsgiving 2026",
-    date: "2026-11-26T17:00:00",          // used for the countdown
+    title: "Thanksgiving × Julebord",
+    tagline: "A melting pot of turkey, pinnekjøtt & good friends",
+    date: "2026-11-26T17:00:00",            // used for the countdown
     dateLabel: "Thursday, November 26 · 5 PM",
-    place: "",                             // e.g. "At Sam's place"
+    place: "Eidsvoll, Norway",
   };
-  // Leave these blank for "demo mode" (saves only in your own browser).
-  // Fill them in from Supabase → Project Settings → API so everyone shares one table.
+  // Shared database (Supabase · Wanderlings project). The publishable key is public by design.
   const SUPABASE_URL = "https://bhjyybdztvmpyzynkvje.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_6nTq00NdMKXR_VJeSS468w_rD31arX2"; // public, safe to share
+  const SUPABASE_ANON_KEY = "sb_publishable_6nTq00NdMKXR_VJeSS468w_rD31arX2";
 </script>
 <style>
 :root {
@@ -33,12 +31,15 @@
   --ink: #3b2416;
   --ink-soft: #7a5b47;
   --cranberry: #9b2335;
+  --nor-red: #ba0c2f;
+  --fjord: #1f3a6e;
   --pumpkin: #d9762b;
   --gold: #e4a93b;
   --sage: #6e7f4f;
+  --pine: #1d3a2c;
   --wood-1: #8a5530;
   --wood-2: #6e3f20;
-  --cloth: #f3e6cf;
+  --cloth: #f6ecda;
   --line: #e7d6bb;
   --shadow: 0 10px 30px rgba(70, 35, 10, .18);
 }
@@ -46,60 +47,65 @@
 html, body { margin: 0; }
 body {
   background:
-    radial-gradient(circle at 10% 0%, rgba(217,118,43,.12), transparent 40%),
-    radial-gradient(circle at 90% 10%, rgba(155,35,53,.10), transparent 40%),
+    radial-gradient(circle at 8% 0%, rgba(217,118,43,.14), transparent 40%),
+    radial-gradient(circle at 92% 6%, rgba(31,58,110,.12), transparent 42%),
     var(--cream);
   color: var(--ink);
   font-family: "DM Sans", system-ui, sans-serif;
   line-height: 1.5;
   min-height: 100vh;
+  overflow-x: hidden;
 }
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px 64px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; }
+.flag { display: inline-block; vertical-align: -0.12em; border-radius: 2px; box-shadow: 0 0 0 .5px rgba(0,0,0,.25); }
 
-/* ---------- falling leaves ---------- */
+/* ---------- falling leaves + snow ---------- */
 .leaves { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
 .leaf { position: absolute; top: -40px; font-size: 22px; opacity: .55; animation: fall linear infinite; }
+.leaf.snow { font-size: 16px; opacity: .45; }
 @keyframes fall {
   0%   { transform: translate(0, -40px) rotate(0deg); }
   50%  { transform: translate(40px, 50vh) rotate(180deg); }
   100% { transform: translate(-20px, 105vh) rotate(360deg); }
 }
-@media (prefers-reduced-motion: reduce) { .leaf { display: none; } }
+@media (prefers-reduced-motion: reduce) { .leaf { display: none; } .flame { animation: none !important; } }
 
 /* ---------- header ---------- */
-header { position: relative; z-index: 1; text-align: center; padding: 40px 0 8px; }
+header { position: relative; z-index: 1; text-align: center; padding: 34px 0 8px; }
+.flags { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px; }
+.flags .x { font-family: "Fraunces", serif; color: var(--ink-soft); font-size: 18px; }
 .kicker { font-family: "Caveat", cursive; font-size: 26px; color: var(--pumpkin); margin: 0; }
+.kicker em { font-style: normal; color: var(--fjord); }
 h1 {
   font-family: "Fraunces", serif; font-weight: 800; letter-spacing: -.02em;
-  font-size: clamp(36px, 7vw, 68px); line-height: 1.02; margin: 4px 0 10px; color: var(--cranberry);
+  font-size: clamp(34px, 7vw, 66px); line-height: 1.02; margin: 4px 0 6px; color: var(--cranberry);
 }
+h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
+.tagline { font-family: "Caveat", cursive; font-size: clamp(20px, 3vw, 26px); color: var(--ink); margin: 0 0 12px; }
 .meta { color: var(--ink-soft); font-size: 15px; display: flex; gap: 8px 18px; justify-content: center; flex-wrap: wrap; }
 .meta b { color: var(--ink); }
-.pill {
-  display: inline-block; background: var(--paper); border: 1px solid var(--line);
-  border-radius: 999px; padding: 4px 12px; font-size: 14px;
-}
-.demo-banner {
-  position: relative; z-index: 1; margin: 16px auto 0; max-width: 720px; text-align: center;
-  background: #fff3d6; border: 1px dashed var(--gold); border-radius: 12px; padding: 8px 14px; font-size: 14px;
+.pill { display: inline-block; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 14px; }
+
+/* knitted Selbu-rose band */
+.band {
+  position: relative; z-index: 1; height: 26px; margin: 22px auto 0; border-radius: 6px;
+  background: var(--selbu) center / 26px 26px repeat-x, var(--nor-red);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -2px 0 rgba(255,255,255,.5), 0 4px 10px rgba(80,10,20,.18);
 }
 
 /* ---------- layout ---------- */
-.grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; margin-top: 28px; align-items: start; }
+.grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; margin-top: 24px; align-items: start; }
 @media (max-width: 960px) { .grid { grid-template-columns: minmax(0, 1fr); } }
-
-.card {
-  background: var(--paper); border: 1px solid var(--line); border-radius: 18px;
-  box-shadow: var(--shadow); padding: 20px;
-}
-.card h2 { font-family: "Fraunces", serif; font-size: 22px; margin: 0 0 4px; }
-.card .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 14px; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 20px; }
+.card h2 { font-family: "Fraunces", serif; font-size: 22px; margin: 0 0 2px; }
+.card h2 .no { display: block; font-family: "Caveat", cursive; font-weight: 700; font-size: 20px; color: var(--fjord); line-height: 1.1; }
+.card .sub { color: var(--ink-soft); font-size: 14px; margin: 6px 0 14px; }
 
 /* ---------- the table ---------- */
 .room {
   position: relative; border-radius: 24px; padding: 56px 46px;
   background:
-    repeating-linear-gradient(45deg, rgba(110,63,32,.05) 0 14px, transparent 14px 28px),
+    repeating-linear-gradient(45deg, rgba(31,58,110,.05) 0 14px, transparent 14px 28px),
     #efe0c6;
   box-shadow: inset 0 0 0 1px var(--line), var(--shadow);
 }
@@ -112,57 +118,68 @@ h1 {
   box-shadow: 0 0 0 10px #5b3218, 0 0 0 12px #3f210f, 0 22px 40px rgba(50,20,0,.4);
 }
 @media (max-width: 600px) { .table { aspect-ratio: 1 / 1.35; } }
-.runner {
-  position: absolute; inset: 7% 18%; border-radius: 50%;
-  background:
-    repeating-linear-gradient(0deg, rgba(155,35,53,.0) 0 10px, rgba(155,35,53,.08) 10px 12px),
-    var(--cloth);
-  box-shadow: inset 0 0 0 4px rgba(155,35,53,.25), inset 0 0 0 9px var(--cloth), inset 0 0 0 11px rgba(217,118,43,.35), 0 4px 10px rgba(0,0,0,.25);
+.cloth {
+  position: absolute; inset: 6%; border-radius: 50%; overflow: hidden;
+  background: repeating-linear-gradient(0deg, transparent 0 10px, rgba(31,58,110,.05) 10px 12px), var(--cloth);
+  box-shadow: 0 4px 10px rgba(0,0,0,.25), inset 0 0 0 3px rgba(186,12,47,.25);
 }
-@media (max-width: 600px) { .runner { inset: 14% 8%; } }
+.runner {
+  position: absolute; left: 0; right: 0; top: 37%; height: 26%;
+  background: var(--selbu) center / 34px 34px, var(--nor-red);
+  box-shadow: inset 0 4px 0 rgba(255,255,255,.55), inset 0 -4px 0 rgba(255,255,255,.55), 0 2px 6px rgba(0,0,0,.2);
+}
+@media (max-width: 600px) { .runner { top: 0; bottom: 0; height: auto; left: 37%; right: auto; width: 26%; } }
+.candle { position: absolute; width: 14px; height: 38px; margin: -30px 0 0 -7px; border-radius: 3px; z-index: 1;
+  background: linear-gradient(90deg, #f3ede0, #fff, #e9dfcc); box-shadow: 0 6px 8px rgba(0,0,0,.25); }
+.candle::before { content: ""; position: absolute; left: -9px; right: -9px; bottom: -6px; height: 10px; border-radius: 50%; background: #c9a24a; box-shadow: inset 0 -2px 0 #9c7a2c; z-index: -1; }
+.flame { position: absolute; left: 50%; top: -16px; width: 10px; height: 16px; margin-left: -5px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 50% 70%, #fff7c2, #ffc23d 55%, #ff7a1a); box-shadow: 0 0 14px 6px rgba(255,190,60,.45); animation: flicker 1.8s ease-in-out infinite; }
+@keyframes flicker { 0%,100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.08, .94) rotate(3deg); } }
 
 .empty-msg[hidden] { display: none; }
-.empty-msg {
-  position: absolute; inset: 0; display: grid; place-items: center; text-align: center; pointer-events: none;
-}
-.empty-msg div { font-family: "Caveat", cursive; font-size: clamp(22px, 3.4vw, 34px); color: var(--ink); max-width: 60%; line-height: 1.1; }
-.empty-msg span { display: block; font-size: 1.8em; }
+.empty-msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; pointer-events: none; z-index: 2; }
+.empty-msg div { font-family: "Caveat", cursive; font-size: clamp(20px, 3.2vw, 32px); color: var(--ink); max-width: 62%; line-height: 1.1;
+  background: rgba(255,250,242,.92); padding: 10px 18px; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.empty-msg span { display: block; font-size: 1.6em; }
+.empty-msg i { font-style: normal; color: var(--fjord); display: block; font-size: .8em; }
 
 .dish {
   --p: 100px;
-  position: absolute; width: var(--p); height: var(--p); margin: calc(var(--p) / -2) 0 0 calc(var(--p) / -2);
+  position: absolute; z-index: 3; width: var(--p); height: var(--p); margin: calc(var(--p) / -2) 0 0 calc(var(--p) / -2);
   border-radius: 50%; display: grid; place-items: center; text-align: center;
-  background: radial-gradient(circle at 50% 50%, #fffdf8 0 52%, #f1e9dc 53% 56%, #fffaf0 57% 70%, #e8dccb 71% 100%);
+  background: radial-gradient(circle at 50% 50%, #fffdf8 0 52%, #f1e9dc 53% 56%, #fffaf0 57% 66%, var(--rim, #e8dccb) 67% 70%, #fffaf0 71% 100%);
   box-shadow: 0 6px 14px rgba(40,15,0,.35), inset 0 -2px 4px rgba(0,0,0,.08);
   transition: left .6s cubic-bezier(.3,1.3,.5,1), top .6s cubic-bezier(.3,1.3,.5,1), width .4s, height .4s, margin .4s, transform .2s;
   cursor: pointer; border: 0; padding: 0; color: inherit; font: inherit;
 }
-.dish:hover, .dish:focus-visible { transform: scale(1.08); z-index: 5; outline: none; }
+.dish.o-us { --rim: #e7a36a; }
+.dish.o-no { --rim: #8ea4cf; }
+.dish:hover, .dish:focus-visible { transform: scale(1.08); z-index: 6; outline: none; }
 .dish:focus-visible { box-shadow: 0 0 0 3px var(--pumpkin), 0 6px 14px rgba(40,15,0,.35); }
 .dish.new { animation: drop .7s cubic-bezier(.3,1.5,.5,1); }
 @keyframes drop { 0% { transform: translateY(-60px) scale(.4); opacity: 0; } 100% { transform: none; opacity: 1; } }
-.dish-inner { width: 74%; display: flex; flex-direction: column; align-items: center; gap: 0; }
+.dish-inner { width: 74%; display: flex; flex-direction: column; align-items: center; }
 .dish .emo { font-size: calc(var(--p) * .26); line-height: 1; }
 .dish .name {
   font-family: "Caveat", cursive; font-weight: 700; color: var(--ink);
   font-size: calc(var(--p) * .17); line-height: .95;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;
 }
-.dish .who { font-size: calc(var(--p) * .095); color: var(--cranberry); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.dish .who { font-size: calc(var(--p) * .095); color: var(--cranberry); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; display: flex; align-items: center; gap: 3px; justify-content: center; }
 
 .seat {
   position: absolute; transform: translate(-50%, -50%); z-index: 2;
   background: #fff; border-radius: 6px; padding: 2px 10px 3px;
   font-family: "Caveat", cursive; font-weight: 700; font-size: 20px; color: var(--cranberry); white-space: nowrap;
   box-shadow: 0 3px 8px rgba(0,0,0,.2); border-top: 3px solid var(--pumpkin);
-  transition: left .6s, top .6s;
 }
+.seat.alt { border-top-color: var(--fjord); color: var(--fjord); }
 @media (max-width: 600px) { .seat { font-size: 16px; padding: 1px 7px; } }
 
 .tip {
   position: absolute; z-index: 20; background: var(--ink); color: #fff; border-radius: 12px;
-  padding: 10px 12px; font-size: 13px; width: 220px; transform: translate(-50%, calc(-100% - 12px));
-  box-shadow: var(--shadow); pointer-events: auto;
+  padding: 10px 12px; font-size: 13px; width: 230px; transform: translate(-50%, calc(-100% - 12px)); box-shadow: var(--shadow);
 }
 .tip b { font-family: "Fraunces", serif; font-size: 15px; display: block; }
 .tip .note { opacity: .85; margin-top: 4px; }
@@ -170,17 +187,16 @@ h1 {
 
 /* ---------- form ---------- */
 label { display: block; font-weight: 700; font-size: 13px; margin: 12px 0 4px; letter-spacing: .02em; }
-input, select, textarea {
-  width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff;
-  border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px;
-}
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--pumpkin); box-shadow: 0 0 0 3px rgba(217,118,43,.18); }
+input, select { width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+input:focus, select:focus { outline: none; border-color: var(--pumpkin); box-shadow: 0 0 0 3px rgba(217,118,43,.18); }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row.sn { grid-template-columns: 84px 1fr; }
 .btn {
   appearance: none; border: 0; cursor: pointer; font: inherit; font-weight: 700;
   background: var(--cranberry); color: #fff; border-radius: 12px; padding: 12px 16px; width: 100%; margin-top: 16px;
   font-size: 16px; box-shadow: 0 4px 0 #6d1724; transition: transform .1s, box-shadow .1s;
 }
+.btn small { display: block; font-weight: 500; font-size: 12px; opacity: .85; }
 .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #6d1724; }
 .btn:disabled { opacity: .6; cursor: wait; }
 .btn-sm { appearance: none; border: 1px solid currentColor; background: transparent; color: inherit; border-radius: 8px; padding: 3px 8px; font: inherit; font-size: 12px; cursor: pointer; }
@@ -189,34 +205,45 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--p
 
 /* ---------- suggestions ---------- */
 .side-stack { display: grid; gap: 22px; }
-.most-needed {
-  background: linear-gradient(135deg, var(--pumpkin), var(--cranberry)); color: #fff; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;
-}
+.most-needed { color: #fff; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; background: linear-gradient(135deg, var(--pumpkin), var(--cranberry)); }
+.most-needed.no { background: linear-gradient(135deg, var(--fjord), var(--nor-red)); }
 .most-needed small { text-transform: uppercase; letter-spacing: .1em; font-size: 11px; opacity: .9; font-weight: 700; }
 .most-needed .big { font-family: "Caveat", cursive; font-size: 32px; line-height: 1.05; font-weight: 700; }
-.most-needed button { margin-top: 6px; color: #fff; }
+.most-needed .what { font-size: 13px; opacity: .9; }
+.most-needed button { margin-top: 8px; color: #fff; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
-  appearance: none; font: inherit; font-size: 14px; cursor: pointer;
+  appearance: none; font: inherit; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
   border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 5px 12px; color: var(--ink);
   transition: background .15s, border-color .15s, transform .1s;
 }
 .chip:hover { border-color: var(--pumpkin); background: #fff6ec; transform: translateY(-1px); }
 .chip.must { border-color: rgba(155,35,53,.45); }
-.chip.must::after { content: " ★"; color: var(--cranberry); }
+.chip.must::after { content: "★"; color: var(--cranberry); }
 .chip.done { text-decoration: line-through; color: var(--ink-soft); background: #f6efe4; cursor: default; opacity: .75; }
 .chip.done:hover { transform: none; border-color: var(--line); }
-h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin: 16px 0 8px; }
+.filter { display: flex; gap: 6px; margin-bottom: 10px; }
+.filter button { appearance: none; font: inherit; font-size: 13px; cursor: pointer; border: 1.5px solid var(--line); background: transparent; border-radius: 8px; padding: 3px 10px; color: var(--ink-soft); display: inline-flex; gap: 5px; align-items: center; }
+.filter button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin: 18px 0 8px; }
+
+.pot { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; font-size: 14px; font-variant-numeric: tabular-nums; }
+.pot-bar { height: 14px; border-radius: 999px; overflow: hidden; display: flex; background: #efe3d1; }
+.pot-bar i { display: block; height: 100%; transition: width .5s; }
+.pot-bar .us { background: linear-gradient(90deg, var(--cranberry), var(--pumpkin)); }
+.pot-bar .ot { background: var(--gold); }
+.pot-bar .no { background: linear-gradient(90deg, var(--fjord), #3c5d9c); }
+.pot-cap { font-size: 13px; color: var(--ink-soft); margin-top: 4px; text-align: center; }
 
 .meters { display: grid; gap: 8px; }
-.meter { display: grid; grid-template-columns: 96px 1fr 42px; align-items: center; gap: 8px; font-size: 14px; }
+.meter { display: grid; grid-template-columns: 104px 1fr 42px; align-items: center; gap: 8px; font-size: 14px; }
 .bar { height: 10px; border-radius: 999px; background: #efe3d1; overflow: hidden; }
 .bar i { display: block; height: 100%; border-radius: 999px; background: var(--sage); transition: width .5s; }
 .bar i.low { background: var(--pumpkin); }
 .bar i.over { background: var(--gold); }
 .meter .n { text-align: right; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .tips { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14px; }
-.tips li::before { content: "🍂 "; }
+.tips li { padding-left: 1.5em; text-indent: -1.5em; }
 
 /* ---------- list ---------- */
 .list-card { margin-top: 28px; position: relative; z-index: 1; }
@@ -224,11 +251,17 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 .group { break-inside: avoid; margin-bottom: 14px; }
 .group h4 { font-family: "Fraunces", serif; margin: 0 0 4px; font-size: 17px; color: var(--cranberry); }
 .group ul { list-style: none; margin: 0; padding: 0; }
-.group li { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; border-bottom: 1px dotted var(--line); font-size: 15px; }
+.group li { display: flex; gap: 8px; align-items: center; padding: 3px 0; border-bottom: 1px dotted var(--line); font-size: 15px; }
 .group li .d { font-family: "Caveat", cursive; font-size: 22px; font-weight: 700; line-height: 1.1; }
 .group li .w { color: var(--ink-soft); font-size: 13px; margin-left: auto; white-space: nowrap; }
 .group li .btn-sm { color: var(--cranberry); }
-footer { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top: 36px; position: relative; z-index: 1; }
+
+/* ---------- Eidsvoll scene ---------- */
+.scene { position: relative; z-index: 1; margin-top: 40px; height: 230px; overflow: hidden; }
+.scene svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.scene-cap { position: absolute; left: 0; right: 0; top: 22px; text-align: center; color: #fff; padding: 0 16px; text-shadow: 0 1px 6px rgba(0,0,0,.35); }
+.scene-cap .big { font-family: "Caveat", cursive; font-size: clamp(28px, 4vw, 40px); font-weight: 700; line-height: 1; }
+.scene-cap .small { font-size: 13px; opacity: .92; margin-top: 4px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
@@ -237,8 +270,10 @@ footer { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top
 
 <div class="wrap">
   <header>
-    <p class="kicker">you're invited to</p>
-    <h1 id="title">Friendsgiving</h1>
+    <div class="flags" id="headFlags"></div>
+    <p class="kicker">you're invited · <em>du er invitert</em></p>
+    <h1 id="title">Thanksgiving × Julebord</h1>
+    <p class="tagline" id="tagline"></p>
     <div class="meta">
       <span id="dateLabel"></span>
       <span id="place"></span>
@@ -246,9 +281,7 @@ footer { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top
       <span class="pill" id="tally">0 dishes · 0 guests</span>
     </div>
   </header>
-  <div class="demo-banner" id="demoBanner" hidden>
-    🧪 <b>Demo mode:</b> signups are only saved in this browser. Add your Supabase keys at the top of <code>index.html</code> so friends share one table.
-  </div>
+  <div class="band" aria-hidden="true"></div>
 
   <div class="grid">
     <!-- TABLE -->
@@ -256,8 +289,9 @@ footer { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top
       <h2 id="tableHeading" class="sr">The dinner table</h2>
       <div class="room" id="room">
         <div class="table" id="table">
-          <div class="runner"></div>
-          <div class="empty-msg" id="emptyMsg"><div><span>🍂</span>The table's bare! Be the first to bring something.</div></div>
+          <div class="cloth"><div class="runner"></div></div>
+          <div id="candles" aria-hidden="true"></div>
+          <div class="empty-msg" id="emptyMsg"><div><span>🕯️🍂</span>The table's bare! Be the first to bring something.<i>Bordet er tomt!</i></div></div>
         </div>
       </div>
     </section>
@@ -265,34 +299,52 @@ footer { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top
     <!-- SIDEBAR -->
     <div class="side-stack">
       <form class="card" id="form" autocomplete="on">
-        <h2>Bring a dish</h2>
-        <p class="sub">Add yours and it'll show up on the table.</p>
+        <h2>Bring a dish <span class="no">Ta med en rett</span></h2>
+        <p class="sub">Turkey or ribbe, pie or riskrem: add yours and it lands on the table.</p>
         <label for="who">Your name</label>
-        <input id="who" name="who" required maxlength="30" placeholder="e.g. Sam">
+        <input id="who" name="who" required maxlength="30" placeholder="e.g. Ingrid">
         <label for="dish">What are you bringing?</label>
-        <input id="dish" name="dish" required maxlength="40" placeholder="e.g. Grandma's mac & cheese">
+        <input id="dish" name="dish" required maxlength="40" placeholder="e.g. Pinnekjøtt, mac & cheese…">
         <div id="dupWarn"></div>
         <div class="row">
           <div>
-            <label for="cat">Category</label>
+            <label for="cat">Course</label>
             <select id="cat" name="cat"></select>
           </div>
+          <div>
+            <label for="origin">Tradition</label>
+            <select id="origin" name="origin">
+              <option value="us">🇺🇸 Thanksgiving</option>
+              <option value="no">🇳🇴 Julebord</option>
+              <option value="other">🌍 Family recipe / other</option>
+            </select>
+          </div>
+        </div>
+        <div class="row sn">
           <div>
             <label for="serves">Serves</label>
             <input id="serves" name="serves" type="number" min="1" max="99" placeholder="8">
           </div>
+          <div>
+            <label for="note">Note <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label>
+            <input id="note" name="note" maxlength="80" placeholder="vegan, nut-free, needs oven…">
+          </div>
         </div>
-        <label for="note">Note <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label>
-        <input id="note" name="note" maxlength="80" placeholder="vegan, nut-free, needs oven space…">
-        <button class="btn" id="submitBtn" type="submit">🍽️ Put it on the table</button>
+        <button class="btn" id="submitBtn" type="submit">🍽️ Put it on the table<small>Sett den på bordet</small></button>
         <div class="ok" id="ok" role="status"></div>
       </form>
 
       <section class="card" aria-labelledby="sugHeading">
-        <h2 id="sugHeading">What's still needed</h2>
+        <h2 id="sugHeading">What's still needed <span class="no">Hva mangler?</span></h2>
         <p class="sub">Tap one to fill in the form. ★ = a must-have.</p>
         <div id="mostNeeded"></div>
+        <div class="filter" role="group" aria-label="Filter suggestions" id="filter"></div>
         <div class="chips" id="needChips"></div>
+
+        <h3>Melting pot</h3>
+        <div class="pot" id="pot"></div>
+        <div class="pot-cap" id="potCap"></div>
+
         <h3>Spread check</h3>
         <div class="meters" id="meters"></div>
         <ul class="tips" id="tips"></ul>
@@ -303,88 +355,180 @@ footer { text-align: center; color: var(--ink-soft); font-size: 13px; margin-top
   </div>
 
   <section class="card list-card" aria-labelledby="listHeading">
-    <h2 id="listHeading">Who's bringing what</h2>
+    <h2 id="listHeading">Who's bringing what <span class="no">Hvem tar med hva</span></h2>
     <p class="sub" id="listSub">Nothing yet.</p>
     <div class="cols" id="list"></div>
   </section>
-
-  <footer>Made with gravy &amp; gratitude 🦃</footer>
 </div>
+
+<footer class="scene" aria-label="Eidsvoll winter scene">
+  <svg id="sceneSvg" viewBox="0 0 1200 230" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
+  <div class="scene-cap">
+    <div class="big">Takk for maten · Thanks for the food</div>
+    <div class="small" id="sceneNote">Eidsvoll, Norge · where Norway's constitution was adopted in 1814, and where our turkey gets carved this year</div>
+  </div>
+</footer>
 
 <script>
 /* ============================================================
-   Menu knowledge: what a table "needs"
+   Little drawings: flags, Selbu star, Eidsvoll scene
+   ============================================================ */
+function flag(code, h = 12) {
+  if (code === "us") {
+    const w = h * 1.6, s = h / 7;
+    let stripes = "";
+    for (let i = 0; i < 7; i++) stripes += `<rect y="${i * s}" width="${w}" height="${s}" fill="${i % 2 ? "#fff" : "#b22234"}"/>`;
+    return `<svg class="flag" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-label="USA" role="img">${stripes}<rect width="${w * .42}" height="${s * 4}" fill="#3c3b6e"/></svg>`;
+  }
+  if (code === "no") {
+    return `<svg class="flag" width="${h * 22 / 16}" height="${h}" viewBox="0 0 22 16" aria-label="Norway" role="img"><rect width="22" height="16" fill="#ba0c2f"/><rect x="6" width="4" height="16" fill="#fff"/><rect y="6" width="22" height="4" fill="#fff"/><rect x="7" width="2" height="16" fill="#00205b"/><rect y="7" width="22" height="2" fill="#00205b"/></svg>`;
+  }
+  return `<span aria-label="Other" role="img" style="font-size:${h}px;line-height:1">🌍</span>`;
+}
+
+(function selbu() {
+  // An 8-pointed Selbu rose made of rhombus petals, on a knitted-looking tile.
+  const petal = `<polygon points="0,-1.5 2.4,-5.5 0,-11 -2.4,-5.5" fill="#fff"/>`;
+  const star = Array.from({ length: 8 }, (_, k) => `<g transform="rotate(${k * 45})">${petal}</g>`).join("");
+  const dots = [[0, 0], [26, 0], [0, 26], [26, 26]].map(([x, y]) => `<rect x="${x - 1.5}" y="${y - 1.5}" width="3" height="3" fill="#fff" transform="rotate(45 ${x} ${y})"/>`).join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><g transform="translate(13 13) scale(.95)">${star}</g>${dots}</svg>`;
+  document.documentElement.style.setProperty("--selbu", `url("data:image/svg+xml,${encodeURIComponent(svg)}")`);
+})();
+
+(function scene() {
+  const trees = [];
+  const tree = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-1.5" y="0" width="3" height="6" fill="#3b2a1a"/>
+    <polygon points="0,-34 -10,-12 10,-12" fill="#1d3a2c"/><polygon points="0,-26 -13,0 13,0" fill="#1d3a2c"/>
+    <polygon points="0,-34 -4,-26 4,-26" fill="#fff" opacity=".9"/><polygon points="-13,0 -8,-4 -3,0" fill="#fff" opacity=".7"/></g>`;
+  [[40,190,1.1],[80,186,.9],[130,192,1.3],[175,188,.8],[230,191,1],[300,185,.85],[360,188,1.15],[420,184,.8],
+   [520,186,.9],[575,190,1.2],[640,187,.85],[880,186,1],[930,190,1.25],[985,187,.9],[1040,191,1.1],[1100,186,.85],[1160,190,1.2]]
+    .forEach(([x, y, s]) => trees.push(tree(x, y, s)));
+  const stars = [[90,30],[210,55],[330,22],[470,48],[610,28],[720,60],[860,26],[1090,40],[1150,70],[40,80],[560,80]]
+    .map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${i % 3 ? 1.2 : 1.8}" fill="#fff" opacity=".8"/>`).join("");
+  document.getElementById("sceneSvg").innerHTML = `
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14254a"/><stop offset=".6" stop-color="#2e4a85"/><stop offset="1" stop-color="#d98f63"/></linearGradient>
+      <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8aa2cf"/><stop offset="1" stop-color="#4b6496"/></linearGradient>
+    </defs>
+    <rect width="1200" height="230" fill="url(#sky)"/>
+    ${stars}
+    <circle cx="1010" cy="58" r="20" fill="#fff6d8"/><circle cx="1019" cy="52" r="18" fill="#203a70"/>
+    <path d="M0 150 Q150 105 300 135 T600 125 T900 132 T1200 118 V230 H0Z" fill="#4a5f8a"/>
+    <path d="M220 128 Q300 110 360 128 Z M780 128 Q850 112 930 130 Z" fill="#e8eef8" opacity=".75"/>
+    <rect y="158" width="1200" height="22" fill="url(#lake)"/>
+    <path d="M120 166 h160 M520 172 h120 M900 165 h180" stroke="#dfe8f7" stroke-width="2" opacity=".55"/>
+    <path d="M0 184 Q200 168 420 182 T820 178 T1200 174 V230 H0Z" fill="#2d4a3a"/>
+    <path d="M0 204 Q300 190 600 202 T1200 196 V230 H0Z" fill="#f5efe6"/>
+    ${trees.join("")}
+    <g transform="translate(730 166)">
+      <rect x="0" y="0" width="74" height="34" fill="#a3262a"/>
+      <path d="M0 4 h74 M0 10 h74 M0 16 h74 M0 22 h74 M0 28 h74" stroke="#7d1b1f" stroke-width="1"/>
+      <polygon points="-8,2 37,-22 82,2" fill="#f7f3ec"/><polygon points="-8,2 37,-22 82,2 82,5 37,-19 -8,5" fill="#5b2b17"/>
+      <rect x="9" y="9" width="13" height="11" fill="#ffd56b"/><rect x="52" y="9" width="13" height="11" fill="#ffd56b"/>
+      <path d="M15.5 9 v11 M9 14.5 h13 M58.5 9 v11 M52 14.5 h13" stroke="#fff" stroke-width="1.4"/>
+      <rect x="31" y="14" width="12" height="20" fill="#5b2b17"/>
+      <rect x="52" y="-18" width="7" height="12" fill="#6b3a24"/>
+      <circle cx="15" cy="14" r="16" fill="#ffd56b" opacity=".12"/><circle cx="58" cy="14" r="16" fill="#ffd56b" opacity=".12"/>
+    </g>`;
+})();
+
+/* ============================================================
+   Menu knowledge: what a Thanksgiving × julebord table "needs"
+   origin: "us" (Thanksgiving), "no" (julebord), "any" (either)
    ============================================================ */
 const CATEGORIES = [
-  { id: "Main",      label: "Main",       emoji: "🦃", target: 1 },
-  { id: "Side",      label: "Sides",      emoji: "🥔", target: 5 },
+  { id: "Main",      label: "Mains",      emoji: "🦃", target: 2 },
+  { id: "Side",      label: "Sides",      emoji: "🥔", target: 6 },
   { id: "Bread",     label: "Bread",      emoji: "🥖", target: 1 },
   { id: "Appetizer", label: "Appetizers", emoji: "🧀", target: 2 },
-  { id: "Dessert",   label: "Desserts",   emoji: "🥧", target: 2 },
-  { id: "Drinks",    label: "Drinks",     emoji: "🍷", target: 2 },
+  { id: "Dessert",   label: "Desserts",   emoji: "🥧", target: 3 },
+  { id: "Drinks",    label: "Drinks",     emoji: "🍷", target: 3 },
   { id: "Other",     label: "Other",      emoji: "🧺", target: 0 },
 ];
 const CAT = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 
-// match = word stems; a dish "covers" a need if any stem appears at a word start.
 const NEEDS = [
-  { label: "Turkey",               cat: "Main",      must: true,  emoji: "🦃", match: ["turkey", "tofurky", "ham", "main course"] },
-  { label: "Mashed potatoes",      cat: "Side",      must: true,  emoji: "🥔", match: ["mashed", "potato"] },
-  { label: "Stuffing",             cat: "Side",      must: true,  emoji: "🥣", match: ["stuffing", "dressing"] },
-  { label: "Gravy",                cat: "Side",      must: true,  emoji: "🫗", match: ["gravy"] },
-  { label: "Cranberry sauce",      cat: "Side",      must: true,  emoji: "🍒", match: ["cranberr"] },
-  { label: "Dinner rolls",         cat: "Bread",     must: true,  emoji: "🥖", match: ["roll", "bread", "biscuit", "cornbread", "croissant"] },
-  { label: "Pumpkin pie",          cat: "Dessert",   must: true,  emoji: "🥧", match: ["pumpkin"] },
-  { label: "Green bean casserole", cat: "Side",      must: false, emoji: "🫛", match: ["green bean", "green-bean", "string bean"] },
-  { label: "Sweet potatoes",       cat: "Side",      must: false, emoji: "🍠", match: ["sweet potato", "yam"] },
-  { label: "Mac & cheese",         cat: "Side",      must: false, emoji: "🧀", match: ["mac ", "mac&", "macaroni", "mac and"] },
-  { label: "Roasted veggies",      cat: "Side",      must: false, emoji: "🥕", match: ["brussel", "carrot", "veg", "squash", "broccoli", "cauliflower", "asparagus"] },
-  { label: "Salad",                cat: "Side",      must: false, emoji: "🥗", match: ["salad", "slaw"] },
-  { label: "Corn",                 cat: "Side",      must: false, emoji: "🌽", match: ["corn on", "creamed corn", "corn casserole", "elote"] },
-  { label: "Apple or pecan pie",   cat: "Dessert",   must: false, emoji: "🍎", match: ["apple", "pecan", "cobbler", "crumble", "crisp"] },
-  { label: "Whipped cream",        cat: "Dessert",   must: false, emoji: "🍦", match: ["whip", "ice cream", "cool whip"] },
-  { label: "Cheese board",         cat: "Appetizer", must: false, emoji: "🧀", match: ["cheese board", "charcuterie", "cheese plate", "cheese & crack", "cheese and crack"] },
-  { label: "Dip & chips",          cat: "Appetizer", must: false, emoji: "🥨", match: ["dip", "chip", "salsa", "hummus", "guac"] },
-  { label: "Deviled eggs",         cat: "Appetizer", must: false, emoji: "🥚", match: ["deviled", "egg"] },
-  { label: "Wine",                 cat: "Drinks",    must: false, emoji: "🍷", match: ["wine", "prosecco", "champagne", "sparkling"] },
-  { label: "Apple cider",          cat: "Drinks",    must: false, emoji: "🍎", match: ["cider"] },
-  { label: "Non-alcoholic drinks", cat: "Drinks",    must: true,  emoji: "🧃", match: ["soda", "juice", "seltzer", "lemonade", "sparkling water", "la croix", "punch", "mocktail", "tea", "pop"] },
-  { label: "Beer",                 cat: "Drinks",    must: false, emoji: "🍺", match: ["beer", "ipa", "lager"] },
-  { label: "Ice",                  cat: "Other",     must: false, emoji: "🧊", match: ["bag of ice", "ice bag", "ice "] },
-  { label: "Plates & napkins",     cat: "Other",     must: false, emoji: "🧻", match: ["plate", "napkin", "cutler", "utensil", "cups", "foil", "container"] },
+  // 🇺🇸 Thanksgiving
+  { label: "Turkey",               origin: "us", cat: "Main",      must: true,  emoji: "🦃", match: ["turkey", "tofurky"] },
+  { label: "Mashed potatoes",      origin: "us", cat: "Side",      must: true,  emoji: "🥔", match: ["mashed", "potet", "potato"] },
+  { label: "Stuffing",             origin: "us", cat: "Side",      must: true,  emoji: "🥣", match: ["stuffing", "dressing"] },
+  { label: "Gravy",                origin: "us", cat: "Side",      must: true,  emoji: "🥄", match: ["gravy", "saus"] },
+  { label: "Cranberry sauce",      origin: "us", cat: "Side",      must: true,  emoji: "🍒", match: ["cranberr"] },
+  { label: "Dinner rolls",         origin: "us", cat: "Bread",     must: false, emoji: "🥖", match: ["roll", "bread", "biscuit", "cornbread", "croissant", "brød", "rundstykke"] },
+  { label: "Pumpkin pie",          origin: "us", cat: "Dessert",   must: true,  emoji: "🥧", match: ["pumpkin", "gresskar"] },
+  { label: "Green bean casserole", origin: "us", cat: "Side",      must: false, emoji: "🫛", match: ["green bean", "green-bean", "string bean"] },
+  { label: "Sweet potatoes",       origin: "us", cat: "Side",      must: false, emoji: "🍠", match: ["sweet potato", "yam", "søtpotet"] },
+  { label: "Mac & cheese",         origin: "us", cat: "Side",      must: false, emoji: "🧀", match: ["mac ", "mac&", "macaroni", "mac and"] },
+  { label: "Corn",                 origin: "us", cat: "Side",      must: false, emoji: "🌽", match: ["corn on", "creamed corn", "corn casserole", "mais"] },
+  { label: "Apple or pecan pie",   origin: "us", cat: "Dessert",   must: false, emoji: "🍎", match: ["apple pie", "pecan", "cobbler", "crumble", "eplekake", "eplepai"] },
+  { label: "Deviled eggs",         origin: "us", cat: "Appetizer", must: false, emoji: "🥚", match: ["deviled", "egg"] },
+  { label: "Apple cider",          origin: "us", cat: "Drinks",    must: false, emoji: "🍎", match: ["cider", "eplemost"] },
+  // 🇳🇴 Julebord
+  { label: "Ribbe",                origin: "no", cat: "Main",      must: true,  emoji: "🥓", hint: "crispy-skinned pork belly", match: ["ribbe", "pork belly", "svineribbe"] },
+  { label: "Pinnekjøtt",           origin: "no", cat: "Main",      must: false, emoji: "🍖", hint: "salted, steamed lamb ribs", match: ["pinnekjøtt", "pinnekjott", "pinnekjot", "lamb rib"] },
+  { label: "Medisterkaker",        origin: "no", cat: "Main",      must: false, emoji: "🧆", hint: "pork patties & sausage", match: ["medister"] },
+  { label: "Lutefisk",             origin: "no", cat: "Main",      must: false, emoji: "🐟", hint: "lye fish. For the brave.", match: ["lutefisk", "lutfisk"] },
+  { label: "Surkål",               origin: "no", cat: "Side",      must: true,  emoji: "🥬", hint: "sweet-sour caraway cabbage", match: ["surkål", "surkal", "sauerkraut"] },
+  { label: "Rødkål",               origin: "no", cat: "Side",      must: false, emoji: "🟣", hint: "braised red cabbage", match: ["rødkål", "rodkal", "red cabbage"] },
+  { label: "Kålrabistappe",        origin: "no", cat: "Side",      must: false, emoji: "🧡", hint: "mashed rutabaga, goes with pinnekjøtt", match: ["kålrabi", "kalrabi", "kålrot", "kalrot", "rutabaga", "swede"] },
+  { label: "Tyttebær",             origin: "no", cat: "Side",      must: false, emoji: "🫐", hint: "lingonberry jam", match: ["tyttebær", "tyttebaer", "lingon"] },
+  { label: "Lefse",                origin: "no", cat: "Bread",     must: false, emoji: "🫓", hint: "soft potato flatbread", match: ["lefse", "lomper", "flatbrød", "flatbrod"] },
+  { label: "Sild",                 origin: "no", cat: "Appetizer", must: false, emoji: "🐟", hint: "pickled herring", match: ["sild", "herring"] },
+  { label: "Brunost",              origin: "no", cat: "Appetizer", must: false, emoji: "🧀", hint: "sweet brown cheese", match: ["brunost", "brown cheese", "geitost", "gudbrandsdal"] },
+  { label: "Riskrem",              origin: "no", cat: "Dessert",   must: true,  emoji: "🍚", hint: "rice cream with red berry sauce", match: ["riskrem", "rice cream", "rice pudding", "risgrøt", "risgrot"] },
+  { label: "Syv slag kaker",       origin: "no", cat: "Dessert",   must: false, emoji: "🍪", hint: "the seven kinds of Christmas cookies", match: ["pepperkake", "krumkake", "sandkake", "berlinerkrans", "goro", "fattigmann", "smultring", "serinakake", "kakemenn", "syv slag", "7 slag", "cookie", "småkake"] },
+  { label: "Multekrem",            origin: "no", cat: "Dessert",   must: false, emoji: "🧡", hint: "cloudberries & whipped cream", match: ["multe", "cloudberr"] },
+  { label: "Kransekake",           origin: "no", cat: "Dessert",   must: false, emoji: "🎂", hint: "tower of almond rings", match: ["kransekake"] },
+  { label: "Gløgg",                origin: "no", cat: "Drinks",    must: true,  emoji: "🍷", hint: "hot spiced wine with raisins & almonds", match: ["gløgg", "glogg", "mulled"] },
+  { label: "Akevitt",              origin: "no", cat: "Drinks",    must: false, emoji: "🥃", hint: "caraway spirit. Skål!", match: ["akevitt", "aquavit", "akvavit"] },
+  { label: "Juleøl",               origin: "no", cat: "Drinks",    must: false, emoji: "🍺", hint: "Christmas beer", match: ["juleøl", "juleol", "christmas beer", "beer", "øl"] },
+  { label: "Julebrus",             origin: "no", cat: "Drinks",    must: false, emoji: "🥤", hint: "Christmas soda, for the kids & drivers", match: ["julebrus"] },
+  // 🌍 Either
+  { label: "Something green",      origin: "any", cat: "Side",     must: false, emoji: "🥗", match: ["salad", "slaw", "brussel", "carrot", "veg", "broccoli", "asparagus", "salat", "grønnsak"] },
+  { label: "Wine",                 origin: "any", cat: "Drinks",   must: false, emoji: "🍷", match: ["wine", "vin", "prosecco", "champagne", "sparkling wine"] },
+  { label: "Alcohol-free drinks",  origin: "any", cat: "Drinks",   must: true,  emoji: "🧃", match: ["soda", "juice", "seltzer", "lemonade", "sparkling water", "farris", "punch", "mocktail", "brus", "saft", "julebrus"] },
+  { label: "Coffee",               origin: "any", cat: "Drinks",   must: false, emoji: "☕", match: ["coffee", "kaffe"] },
+  { label: "Plates & napkins",     origin: "any", cat: "Other",    must: false, emoji: "🧻", match: ["plate", "napkin", "serviett", "cutler", "utensil", "cups", "foil", "container"] },
 ];
 
-// Extra keyword → emoji guesses for the plate art
 const EMOJI_HINTS = [
-  ["turkey", "🦃"], ["ham", "🍖"], ["chicken", "🍗"], ["pie", "🥧"], ["cake", "🍰"], ["cookie", "🍪"],
-  ["brownie", "🍫"], ["chocolate", "🍫"], ["wine", "🍷"], ["beer", "🍺"], ["cider", "🍎"], ["coffee", "☕"],
-  ["salad", "🥗"], ["potato", "🥔"], ["sweet potato", "🍠"], ["yam", "🍠"], ["corn", "🌽"], ["bread", "🍞"],
+  ["turkey", "🦃"], ["ham", "🍖"], ["chicken", "🍗"], ["pie", "🥧"], ["cake", "🍰"], ["cookie", "🍪"], ["kake", "🍪"],
+  ["brownie", "🍫"], ["chocolate", "🍫"], ["sjokolade", "🍫"], ["wine", "🍷"], ["beer", "🍺"], ["cider", "🍎"], ["coffee", "☕"], ["kaffe", "☕"],
+  ["salad", "🥗"], ["potato", "🥔"], ["sweet potato", "🍠"], ["yam", "🍠"], ["corn", "🌽"], ["bread", "🍞"], ["brød", "🍞"],
   ["roll", "🥖"], ["biscuit", "🥐"], ["cheese", "🧀"], ["mac", "🧀"], ["egg", "🥚"], ["carrot", "🥕"],
   ["bean", "🫛"], ["brussel", "🥬"], ["cranberr", "🍒"], ["apple", "🍎"], ["pumpkin", "🎃"], ["soup", "🍲"],
-  ["dip", "🥣"], ["chip", "🥔"], ["gravy", "🫗"], ["stuffing", "🥣"], ["ice cream", "🍨"], ["whip", "🍦"],
-  ["soda", "🥤"], ["juice", "🧃"], ["punch", "🍹"], ["ice", "🧊"], ["napkin", "🧻"], ["plate", "🍽️"],
+  ["dip", "🥣"], ["chip", "🥔"], ["gravy", "🥄"], ["stuffing", "🥣"], ["ice cream", "🍨"], ["whip", "🍦"],
+  ["soda", "🥤"], ["juice", "🧃"], ["punch", "🍹"], ["napkin", "🧻"], ["plate", "🍽️"],
+  ["ribbe", "🥓"], ["pinnekjøtt", "🍖"], ["pinnekjott", "🍖"], ["medister", "🧆"], ["lutefisk", "🐟"], ["sild", "🐟"], ["laks", "🐟"], ["salmon", "🐟"],
+  ["surkål", "🥬"], ["rødkål", "🥬"], ["lefse", "🫓"], ["brunost", "🧀"], ["riskrem", "🍚"], ["risgrøt", "🍚"],
+  ["pepperkake", "🍪"], ["krumkake", "🍦"], ["multe", "🍨"], ["kransekake", "🎂"], ["gløgg", "🍷"], ["glogg", "🍷"],
+  ["akevitt", "🥃"], ["aquavit", "🥃"], ["juleøl", "🍺"], ["julebrus", "🥤"], ["tyttebær", "🫐"], ["kålrabi", "🧡"],
 ];
 
-const norm = s => " " + s.toLowerCase().replace(/[^a-z0-9& ]+/g, " ").replace(/\s+/g, " ") + " ";
-const hits = (text, stem) => norm(text).includes(" " + stem.trim()) ;
+const NO_CHARS = /[æøå]/i;
+const norm = s => " " + s.toLowerCase().replace(/[^\p{L}\p{N}& ]+/gu, " ").replace(/\s+/g, " ") + " ";
+const hits = (text, stem) => norm(text).includes(" " + stem.trim());
 const coveredBy = (need, dishes) => dishes.filter(d => need.match.some(m => hits(d.dish, m)));
 function guessEmoji(d) {
-  const t = d.dish;
   let best = null, len = 0;
-  for (const [k, e] of EMOJI_HINTS) if (hits(t, k) && k.length > len) { best = e; len = k.length; }
+  for (const [k, e] of EMOJI_HINTS) if (hits(d.dish, k) && k.length > len) { best = e; len = k.length; }
   return best || CAT[d.cat]?.emoji || "🍽️";
 }
-function guessCategory(text) {
-  for (const n of NEEDS) if (n.match.some(m => hits(text, m))) return n.cat;
-  if (/\b(cake|cookie|brownie|tart|pudding|fudge|bar)s?\b/i.test(text)) return "Dessert";
-  if (/\b(drink|coffee|cocktail|bourbon|whiskey)\b/i.test(text)) return "Drinks";
-  return null;
+function guess(text) {
+  let cat = null, origin = null;
+  for (const n of NEEDS) if (n.match.some(m => hits(text, m))) { cat ??= n.cat; if (n.origin !== "any") { origin ??= n.origin; } }
+  if (!cat && /\b(cake|cookie|brownie|tart|pudding|fudge|bar|kake)s?\b/i.test(text)) cat = "Dessert";
+  if (!cat && /\b(drink|cocktail|bourbon|whiskey)\b/i.test(text)) cat = "Drinks";
+  if (!origin && NO_CHARS.test(text)) origin = "no";
+  return { cat, origin };
 }
+const ORIGIN_LABEL = { us: "Thanksgiving", no: "Julebord", other: "Family recipe" };
 
 /* ============================================================
    Storage: Supabase REST if configured, else localStorage
    ============================================================ */
 const REMOTE = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+const TABLE = "thanksgiving_dishes";
 const LS_KEY = "friendsgiving-dishes";
 const MINE_KEY = "friendsgiving-mine";
 const safeGet = (k, fb) => { try { return JSON.parse(localStorage.getItem(k)) ?? fb; } catch { return fb; } };
@@ -394,7 +538,7 @@ const api = {
   headers: () => ({ apikey: SUPABASE_ANON_KEY, ...(SUPABASE_ANON_KEY.startsWith("sb_") ? {} : { Authorization: `Bearer ${SUPABASE_ANON_KEY}` }), "Content-Type": "application/json" }),
   async list() {
     if (!REMOTE) return safeGet(LS_KEY, []);
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/thanksgiving_dishes?select=*&order=created_at.asc`, { headers: api.headers() });
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?select=*&order=created_at.asc`, { headers: api.headers() });
     if (!r.ok) throw new Error(await r.text());
     return r.json();
   },
@@ -404,7 +548,7 @@ const api = {
       const rec = { ...row, id: crypto.randomUUID?.() || String(Date.now()), created_at: new Date().toISOString() };
       all.push(rec); safeSet(LS_KEY, all); return rec;
     }
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/thanksgiving_dishes`, {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
       method: "POST", headers: { ...api.headers(), Prefer: "return=representation" }, body: JSON.stringify(row),
     });
     if (!r.ok) throw new Error(await r.text());
@@ -412,7 +556,7 @@ const api = {
   },
   async remove(id) {
     if (!REMOTE) { safeSet(LS_KEY, safeGet(LS_KEY, []).filter(d => d.id !== id)); return; }
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/thanksgiving_dishes?id=eq.${encodeURIComponent(id)}`, { method: "DELETE", headers: api.headers() });
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?id=eq.${encodeURIComponent(id)}`, { method: "DELETE", headers: api.headers() });
     if (!r.ok) throw new Error(await r.text());
   },
 };
@@ -423,22 +567,27 @@ const api = {
 let dishes = [];
 let mine = new Set(safeGet(MINE_KEY, []));
 let justAdded = null;
+let needFilter = "all";
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 function setupHeader() {
   document.title = EVENT.title;
-  $("title").textContent = EVENT.title;
+  $("title").innerHTML = esc(EVENT.title).replace("×", `<span class="times">×</span>`);
+  $("tagline").textContent = EVENT.tagline || "";
+  $("headFlags").innerHTML = `${flag("us", 20)}<span class="x">×</span>${flag("no", 20)}`;
   $("dateLabel").innerHTML = EVENT.dateLabel ? `📅 <b>${esc(EVENT.dateLabel)}</b>` : "";
   $("place").innerHTML = EVENT.place ? `📍 ${esc(EVENT.place)}` : "";
   const days = Math.ceil((new Date(EVENT.date) - new Date()) / 864e5);
-  $("countdown").textContent = isNaN(days) ? "" : days > 1 ? `⏳ ${days} days to go` : days === 1 ? "⏳ Tomorrow!" : days === 0 ? "🎉 Today!" : "🥧 Hope it was delicious";
-  $("demoBanner").hidden = REMOTE;
-  $("cat").innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.emoji} ${c.label}</option>`).join("");
+  $("countdown").textContent = isNaN(days) ? "" : days > 1 ? `⏳ ${days} days to go` : days === 1 ? "⏳ Tomorrow!" : days === 0 ? "🎉 Today! Skål!" : "🥧 Takk for maten!";
+  $("cat").innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.emoji} ${c.label.replace(/s$/, "")}</option>`).join("");
   $("cat").value = "Side";
-  const leaves = ["🍂", "🍁", "🍃"];
-  $("leaves").innerHTML = Array.from({ length: 12 }, (_, i) =>
-    `<span class="leaf" style="left:${(i * 83) % 100}%;animation-duration:${14 + (i * 7) % 12}s;animation-delay:-${(i * 3.1) % 14}s">${leaves[i % 3]}</span>`).join("");
+  $("origin").value = "us";
+  $("filter").innerHTML = [["all", "All"], ["us", flag("us", 11) + " Thanksgiving"], ["no", flag("no", 11) + " Julebord"]]
+    .map(([k, l]) => `<button type="button" data-filter="${k}" aria-pressed="${k === needFilter}">${l}</button>`).join("");
+  const fall = ["🍂", "❄️", "🍁", "❄️", "🍃", "❄️"];
+  $("leaves").innerHTML = Array.from({ length: 14 }, (_, i) =>
+    `<span class="leaf ${fall[i % 6] === "❄️" ? "snow" : ""}" style="left:${(i * 73) % 100}%;animation-duration:${14 + (i * 7) % 12}s;animation-delay:-${(i * 3.1) % 14}s">${fall[i % 6]}</span>`).join("");
 }
 
 function render() {
@@ -449,7 +598,7 @@ function render() {
   renderList();
 }
 
-/* ---- table layout: dishes on concentric ellipses, name cards around the rim ---- */
+/* ---- table: dishes on concentric ellipses, name cards around the rim ---- */
 function renderTable(guests) {
   const table = $("table");
   const W = table.clientWidth, H = table.clientHeight;
@@ -457,10 +606,13 @@ function renderTable(guests) {
   const a = W / 2, b = H / 2;
   $("emptyMsg").hidden = dishes.length > 0;
 
-  // Mains first (center), then by category so similar foods cluster.
+  // candles sit on the runner, toward each end
+  const portrait = H > W;
+  $("candles").innerHTML = [0.2, 0.8].map(f =>
+    `<div class="candle" style="left:${portrait ? 50 : f * 100}%;top:${portrait ? f * 100 : 50}%"><div class="flame"></div></div>`).join("");
+
   const order = CATEGORIES.map(c => c.id);
   const sorted = [...dishes].sort((x, y) => (order.indexOf(x.cat) - order.indexOf(y.cat)) || x.created_at.localeCompare(y.created_at));
-
   const { p, spots } = layoutPlates(sorted.length, a, b);
 
   const existing = new Map([...table.querySelectorAll(".dish")].map(el => [el.dataset.id, el]));
@@ -474,15 +626,16 @@ function renderTable(guests) {
       if (d.id === justAdded) { el.classList.add("new"); setTimeout(() => el.classList.remove("new"), 800); }
     }
     existing.delete(d.id);
-    el.setAttribute("aria-label", `${d.dish}, brought by ${d.who}`);
-    el.innerHTML = `<div class="dish-inner"><div class="emo">${guessEmoji(d)}</div><div class="name">${esc(d.dish)}</div><div class="who">${esc(d.who)}</div></div>`;
+    el.classList.remove("o-us", "o-no", "o-other");
+    el.classList.add(`o-${d.origin}`);
+    el.setAttribute("aria-label", `${d.dish} (${ORIGIN_LABEL[d.origin]}), brought by ${d.who}`);
+    el.innerHTML = `<div class="dish-inner"><div class="emo">${guessEmoji(d)}</div><div class="name">${esc(d.dish)}</div><div class="who">${d.origin !== "other" ? flag(d.origin, Math.max(7, p * .075)) : ""}${esc(d.who)}</div></div>`;
     const [x, y] = spots[i] || [a, b];
     el.style.setProperty("--p", `${p}px`);
     el.style.left = `${x}px`; el.style.top = `${y}px`;
   });
   existing.forEach(el => el.remove());
 
-  // name cards around the table edge
   const room = $("room");
   room.querySelectorAll(".seat").forEach(s => s.remove());
   const tr = table.getBoundingClientRect(), rr = room.getBoundingClientRect();
@@ -491,7 +644,7 @@ function renderTable(guests) {
   guests.forEach((g, i) => {
     const ang = -Math.PI / 2 + (i / n) * Math.PI * 2 + (n % 2 ? 0 : Math.PI / n);
     const s = document.createElement("div");
-    s.className = "seat"; s.textContent = g;
+    s.className = "seat" + (i % 2 ? " alt" : ""); s.textContent = g;
     s.style.left = `${cx + Math.cos(ang) * (a + 22)}px`;
     s.style.top = `${cy + Math.sin(ang) * (b + 22)}px`;
     room.appendChild(s);
@@ -510,7 +663,7 @@ function layoutPlates(N, a, b) {
     const q = pts[(i + 1) % pts.length];
     return Math.min(g, Math.hypot(pt[0] - q[0], pt[1] - q[1]));
   }, Infinity);
-  for (let p = Math.min(150, m * 0.62); p > 28; p *= 0.95) {
+  for (let p = Math.min(150, m * 0.62); ; p *= 0.95) {
     const rings = [];
     let cap = 1;
     for (let t = 1.12 * p / m; (1 - t) * m >= p * 0.55 && cap < N; t += 1.1 * p / m) {
@@ -537,9 +690,9 @@ function showTip(id) {
   const tip = document.createElement("div");
   tip.className = "tip"; tip.id = "tip";
   const bits = [d.serves ? `serves ${esc(d.serves)}` : "", d.note ? esc(d.note) : ""].filter(Boolean).join(" · ");
-  tip.innerHTML = `<b>${esc(d.dish)}</b>${CAT[d.cat]?.emoji || ""} ${esc(CAT[d.cat]?.label || d.cat)} · from ${esc(d.who)}${bits ? `<div class="note">${bits}</div>` : ""}` +
+  tip.innerHTML = `<b>${esc(d.dish)}</b>${flag(d.origin, 11)} ${ORIGIN_LABEL[d.origin]} · ${esc(CAT[d.cat]?.label.replace(/s$/, "") || d.cat)} · from ${esc(d.who)}${bits ? `<div class="note">${bits}</div>` : ""}` +
     (mine.has(d.id) || !REMOTE ? `<button class="btn-sm" data-remove="${esc(d.id)}">Remove</button>` : "");
-  const left = Math.min(Math.max(parseFloat(el.style.left), 110), $("table").clientWidth - 110);
+  const left = Math.min(Math.max(parseFloat(el.style.left), 115), $("table").clientWidth - 115);
   tip.style.left = `${left}px`;
   tip.style.top = `${parseFloat(el.style.top) - parseFloat(el.style.getPropertyValue("--p")) / 2}px`;
   tip.addEventListener("click", e => e.stopPropagation());
@@ -551,29 +704,50 @@ document.addEventListener("keydown", e => e.key === "Escape" && hideTip());
 
 /* ---- suggestions ---- */
 function renderSuggestions(guestCount) {
-  const scale = Math.max(1, guestCount / 8);
+  const scale = Math.max(1, guestCount / 10);
   const counts = Object.fromEntries(CATEGORIES.map(c => [c.id, 0]));
   dishes.forEach(d => counts[d.cat] = (counts[d.cat] || 0) + 1);
+  const by = { us: 0, no: 0, other: 0 };
+  dishes.forEach(d => by[d.origin]++);
 
   const status = NEEDS.map(n => ({ ...n, by: coveredBy(n, dishes) }));
+  const isDone = label => status.find(n => n.label === label).by.length > 0;
   const open = status.filter(n => !n.by.length);
-  // priority: must-haves first, then needs from the category furthest below target
+  // priority: must-haves, then the cuisine that's behind, then the course that's short
+  const lagging = by.us > by.no ? "no" : by.no > by.us ? "us" : null;
   const deficit = c => (CAT[c].target * scale) - counts[c];
-  open.sort((x, y) => (y.must - x.must) || (deficit(y.cat) - deficit(x.cat)));
+  const score = n => n.must * 10 + (n.origin === lagging ? 3 : 0) + deficit(n.cat);
+  open.sort((x, y) => score(y) - score(x));
 
   const top = open[0];
+  const pickBtn = n => `data-pick="${esc(n.label)}" data-cat="${n.cat}" data-origin="${n.origin === "any" ? "" : n.origin}"`;
   $("mostNeeded").innerHTML = top ? `
-    <div class="most-needed">
-      <small>Most needed right now</small>
+    <div class="most-needed ${top.origin === "no" ? "no" : ""}">
+      <small>Most needed right now ${top.origin !== "any" ? flag(top.origin, 10) : ""}</small>
       <div class="big">${top.emoji} ${esc(top.label)}</div>
-      <button class="btn-sm" type="button" data-pick="${esc(top.label)}" data-cat="${top.cat}">I'll bring it →</button>
-    </div>` : `<div class="most-needed"><small>Status</small><div class="big">🎉 The classics are covered!</div></div>`;
+      ${top.hint ? `<div class="what">${esc(top.hint)}</div>` : ""}
+      <button class="btn-sm" type="button" ${pickBtn(top)}>I'll bring it →</button>
+    </div>` : `<div class="most-needed"><small>Status</small><div class="big">🎉 Both traditions covered!</div></div>`;
 
-  $("needChips").innerHTML = open.slice(top ? 1 : 0).map(n =>
-    `<button type="button" class="chip ${n.must ? "must" : ""}" data-pick="${esc(n.label)}" data-cat="${n.cat}">${n.emoji} ${esc(n.label)}</button>`).join("");
+  const shown = open.slice(top ? 1 : 0).filter(n => needFilter === "all" || n.origin === needFilter || n.origin === "any");
+  $("needChips").innerHTML = shown.map(n =>
+    `<button type="button" class="chip ${n.must ? "must" : ""}" ${pickBtn(n)} ${n.hint ? `title="${esc(n.hint)}"` : ""}>${n.origin !== "any" ? flag(n.origin, 10) : ""} ${n.emoji} ${esc(n.label)}</button>`).join("")
+    || `<span style="color:var(--ink-soft);font-size:14px">All covered here!</span>`;
   $("doneChips").innerHTML = status.filter(n => n.by.length).map(n =>
     `<span class="chip done" title="${esc(n.by.map(d => d.who).join(", "))}">${n.emoji} ${esc(n.label)}</span>`).join("") ||
     `<span style="color:var(--ink-soft);font-size:14px">Nothing yet. Be a hero.</span>`;
+
+  // melting-pot balance
+  const total = dishes.length || 1;
+  $("pot").innerHTML = `<span>${flag("us", 14)} ${by.us}</span>
+    <div class="pot-bar" role="img" aria-label="${by.us} Thanksgiving, ${by.other} family recipes, ${by.no} julebord dishes">
+      <i class="us" style="width:${by.us / total * 100}%"></i><i class="ot" style="width:${by.other / total * 100}%"></i><i class="no" style="width:${by.no / total * 100}%"></i>
+    </div><span>${by.no} ${flag("no", 14)}</span>`;
+  const diff = by.us - by.no;
+  $("potCap").textContent = !dishes.length ? "Thanksgiving on the left, julebord on the right"
+    : Math.abs(diff) <= 1 ? "Perfectly blended. Skål! 🥂"
+    : diff > 0 ? "Leaning American. More julebord dishes, please!" : "Leaning Norwegian. More Thanksgiving dishes, please!";
+  if (by.other) $("potCap").textContent += ` · ${by.other} family recipe${by.other > 1 ? "s" : ""} 🌍`;
 
   $("meters").innerHTML = CATEGORIES.filter(c => c.target).map(c => {
     const t = Math.ceil(c.target * scale), n = counts[c.id];
@@ -585,15 +759,21 @@ function renderSuggestions(guestCount) {
   const tips = [];
   const lacking = CATEGORIES.filter(c => c.target && counts[c.id] < Math.ceil(c.target * scale));
   const heavy = CATEGORIES.filter(c => c.target && counts[c.id] > Math.ceil(c.target * scale) * 1.6);
-  if (!dishes.length) tips.push("Start with the turkey. Everything else orbits around it.");
-  heavy.forEach(c => lacking.length && tips.push(`Lots of ${c.label.toLowerCase()} already. Maybe go for ${lacking.map(l => l.label.toLowerCase()).slice(0, 2).join(" or ")}?`));
-  if (dishes.length >= 3 && !dishes.some(d => /\b(vegan|veggie|vegetarian|gluten|gf)\b/i.test(d.dish + " " + (d.note || ""))))
-    tips.push("Nothing's marked vegan or gluten-free yet. A friendly option helps.");
-  if (counts.Side >= 3 && !status.find(n => n.label === "Salad").by.length && !status.find(n => n.label === "Roasted veggies").by.length)
-    tips.push("Very beige so far. Something green would balance the plate.");
+  if (!dishes.length) tips.push("🦃 Two centerpieces this year: a turkey and a ribbe. Claim one!");
+  if (diff >= 3) tips.push("🇳🇴 Very American so far. The Norwegians need their ribbe, surkål and gløgg!");
+  if (diff <= -3) tips.push("🇺🇸 Very Norwegian so far. Someone bring a turkey and a pumpkin pie!");
+  heavy.forEach(c => lacking.length && tips.push(`🍂 Lots of ${c.label.toLowerCase()} already. Maybe ${lacking.map(l => l.label.toLowerCase()).slice(0, 2).join(" or ")}?`));
+  if (isDone("Pinnekjøtt") && !isDone("Kålrabistappe")) tips.push("🧡 Pinnekjøtt without kålrabistappe? Unthinkable. Who's mashing rutabaga?");
+  if (isDone("Ribbe") && !isDone("Surkål")) tips.push("🥬 Ribbe is coming, so it needs surkål by its side.");
+  if (isDone("Lutefisk")) tips.push("🐟 Someone's bringing lutefisk. Brave. Respect. 🫡");
+  if (isDone("Turkey") && !isDone("Gravy")) tips.push("🥄 A turkey with no gravy is a sad turkey.");
+  if (dishes.length >= 4 && !dishes.some(d => /\b(vegan|veggie|vegetar|vegetarian|gluten|gf|glutenfri)\b/i.test(d.dish + " " + (d.note || ""))))
+    tips.push("🌱 Nothing's marked vegan or gluten-free yet. A friendly option helps.");
+  if (counts.Side >= 3 && !isDone("Something green") && !isDone("Surkål") && !isDone("Rødkål"))
+    tips.push("🥗 Very beige so far. Something green would balance the plate.");
   const totalServes = dishes.reduce((s, d) => s + (Number(d.serves) || 0), 0);
-  if (guestCount >= 4 && totalServes && totalServes < guestCount * 3) tips.push(`About ${totalServes} servings listed for ${guestCount} guests. Bigger batches are welcome.`);
-  $("tips").innerHTML = tips.map(t => `<li>${esc(t)}</li>`).join("");
+  if (guestCount >= 4 && totalServes && totalServes < guestCount * 3) tips.push(`🍽️ About ${totalServes} servings listed for ${guestCount} guests. Bigger batches are welcome.`);
+  $("tips").innerHTML = tips.filter(Boolean).map(t => `<li>${esc(t)}</li>`).join("");
 }
 
 /* ---- grouped list ---- */
@@ -603,7 +783,7 @@ function renderList() {
     const ds = dishes.filter(d => d.cat === c.id);
     if (!ds.length) return "";
     return `<div class="group"><h4>${c.emoji} ${c.label}</h4><ul>${ds.map(d => `
-      <li><span class="d">${esc(d.dish)}</span><span class="w">${esc(d.who)}${d.serves ? ` · ${esc(d.serves)}` : ""}</span>
+      <li>${flag(d.origin, 11)}<span class="d">${esc(d.dish)}</span><span class="w">${esc(d.who)}${d.serves ? ` · ${esc(d.serves)}` : ""}</span>
       ${(mine.has(d.id) || !REMOTE) ? `<button class="btn-sm" data-remove="${esc(d.id)}" aria-label="Remove ${esc(d.dish)}">✕</button>` : ""}</li>`).join("")}
     </ul></div>`;
   }).join("");
@@ -612,11 +792,15 @@ function renderList() {
 /* ============================================================
    Interactions
    ============================================================ */
+let catTouched = false, originTouched = false;
 document.addEventListener("click", async e => {
+  const f = e.target.closest("[data-filter]");
+  if (f) { needFilter = f.dataset.filter; $("filter").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === f)); render(); return; }
   const pick = e.target.closest("[data-pick]");
   if (pick) {
     $("dish").value = pick.dataset.pick;
-    $("cat").value = pick.dataset.cat;
+    $("cat").value = pick.dataset.cat; catTouched = true;
+    if (pick.dataset.origin) { $("origin").value = pick.dataset.origin; originTouched = true; }
     checkDup();
     $("form").scrollIntoView({ behavior: "smooth", block: "center" });
     ($("who").value ? $("dish") : $("who")).focus();
@@ -635,10 +819,12 @@ document.addEventListener("click", async e => {
   }
 });
 
-let catTouched = false;
 $("cat").addEventListener("change", () => catTouched = true);
+$("origin").addEventListener("change", () => originTouched = true);
 $("dish").addEventListener("input", () => {
-  if (!catTouched) { const g = guessCategory($("dish").value); if (g) $("cat").value = g; }
+  const g = guess($("dish").value);
+  if (!catTouched) $("cat").value = g.cat || "Side";
+  if (!originTouched) $("origin").value = g.origin || "us";
   checkDup();
 });
 function checkDup() {
@@ -657,6 +843,7 @@ $("form").addEventListener("submit", async e => {
     who: $("who").value.trim().slice(0, 30),
     dish: $("dish").value.trim().slice(0, 40),
     cat: $("cat").value,
+    origin: $("origin").value,
     serves: $("serves").value ? Number($("serves").value) : null,
     note: $("note").value.trim().slice(0, 80) || null,
   };
@@ -667,9 +854,10 @@ $("form").addEventListener("submit", async e => {
     mine.add(rec.id); safeSet(MINE_KEY, [...mine]); safeSet("friendsgiving-name", row.who);
     justAdded = rec.id;
     ["dish", "serves", "note"].forEach(id => $(id).value = "");
-    $("dupWarn").innerHTML = ""; catTouched = false;
-    $("ok").textContent = `✨ ${row.dish} is on the table. Thanks, ${row.who}!`;
-    setTimeout(() => $("ok").textContent = "", 4000);
+    $("dupWarn").innerHTML = ""; catTouched = originTouched = false;
+    $("cat").value = "Side"; $("origin").value = "us";
+    $("ok").textContent = `✨ ${row.dish} is on the table. Takk, ${row.who}! Skål! 🥂`;
+    setTimeout(() => $("ok").textContent = "", 5000);
     await refresh();
     $("room").scrollIntoView({ behavior: "smooth", block: "center" });
   } catch (err) {
@@ -679,7 +867,12 @@ $("form").addEventListener("submit", async e => {
 
 async function refresh() {
   try {
-    dishes = (await api.list()).map(d => ({ ...d, cat: CAT[d.cat] ? d.cat : "Other", created_at: d.created_at || "" }));
+    dishes = (await api.list()).map(d => ({
+      ...d,
+      cat: CAT[d.cat] ? d.cat : "Other",
+      origin: ["us", "no", "other"].includes(d.origin) ? d.origin : "other",
+      created_at: d.created_at || "",
+    }));
     render();
   } catch (err) { console.error(err); }
 }
