@@ -247,14 +247,40 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 
 /* ---------- list ---------- */
 .list-card { margin-top: 28px; position: relative; z-index: 1; }
-.cols { columns: 3 240px; column-gap: 24px; }
-.group { break-inside: avoid; margin-bottom: 14px; }
-.group h4 { font-family: "Fraunces", serif; margin: 0 0 4px; font-size: 17px; color: var(--cranberry); }
-.group ul { list-style: none; margin: 0; padding: 0; }
-.group li { display: flex; gap: 8px; align-items: center; padding: 3px 0; border-bottom: 1px dotted var(--line); font-size: 15px; }
-.group li .d { font-family: "Caveat", cursive; font-size: 22px; font-weight: 700; line-height: 1.1; }
-.group li .w { color: var(--ink-soft); font-size: 13px; margin-left: auto; white-space: nowrap; }
-.group li .btn-sm { color: var(--cranberry); }
+.menu-wrap { margin: 0 -4px; }
+.menu { width: 100%; border-collapse: collapse; font-size: 15px; }
+.menu th, .menu td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.menu thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); border-bottom: 2px solid var(--ink); padding-top: 0; }
+.menu .num { text-align: right; font-variant-numeric: tabular-nums; }
+.menu tbody tr.drow:hover { background: #fff3e4; }
+.menu .course th { background: #f6ead6; font-family: "Fraunces", serif; font-size: 18px; color: var(--cranberry); padding: 10px; border-bottom: 1px solid #e3cfae; }
+.menu tbody + tbody .course th { border-top: 10px solid var(--paper); }
+.menu .count { font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 700; color: var(--ink-soft); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; margin-left: 8px; vertical-align: 3px; }
+.menu .count.low { color: #fff; background: var(--pumpkin); border-color: var(--pumpkin); }
+.menu td.dname { font-family: "Caveat", cursive; font-size: 23px; font-weight: 700; line-height: 1.1; }
+.menu td.dname .emo { font-size: 18px; margin-right: 4px; }
+.menu td.trad { white-space: nowrap; font-size: 14px; }
+.menu td.trad .flag, .menu td.trad span[role] { margin-right: 6px; }
+.menu td.who { font-weight: 700; white-space: nowrap; }
+.menu td.note { color: var(--ink-soft); font-size: 14px; }
+.menu td.rm { width: 1%; white-space: nowrap; }
+.menu tfoot .m-meta { display: none; }
+.menu td.rm .btn-sm { color: var(--cranberry); }
+.menu .m-meta { display: none; }
+.menu .open-row td { font-size: 13px; color: var(--ink-soft); background: #fffdf9; }
+.menu .open-row .chips { display: inline-flex; gap: 6px; vertical-align: middle; margin-left: 6px; }
+.chip.sm { font-size: 12px; padding: 2px 9px; }
+.menu tfoot td { border-bottom: 0; font-weight: 700; padding-top: 12px; color: var(--ink-soft); font-size: 14px; }
+@media (max-width: 640px) {
+  .menu thead, .menu td.trad, .menu td.who, .menu td.num, .menu td.note, .menu tfoot td:not(:first-child) { display: none; }
+  .menu, .menu tbody, .menu tfoot, .menu tr, .menu th, .menu td { display: block; width: 100%; }
+  .menu tfoot .m-meta { display: inline; }
+  .menu tr.drow { display: grid !important; grid-template-columns: 1fr auto; align-items: center; border-bottom: 1px solid var(--line); }
+  .menu tr.drow td { border: 0; width: auto; }
+  .menu .m-meta { display: block; font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 400; color: var(--ink-soft); margin-top: 2px; }
+  .menu .m-meta .flag { margin-right: 4px; }
+  .menu .open-row .chips { display: flex; flex-wrap: wrap; margin: 6px 0 0; }
+}
 
 /* ---------- Eidsvoll scene ---------- */
 .scene { position: relative; z-index: 1; margin-top: 40px; height: 230px; overflow: hidden; }
@@ -357,7 +383,7 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
   <section class="card list-card" aria-labelledby="listHeading">
     <h2 id="listHeading">Who's bringing what <span class="no">Hvem tar med hva</span></h2>
     <p class="sub" id="listSub">Nothing yet.</p>
-    <div class="cols" id="list"></div>
+    <div class="menu-wrap" id="list"></div>
   </section>
 </div>
 
@@ -778,15 +804,41 @@ function renderSuggestions(guestCount) {
 
 /* ---- grouped list ---- */
 function renderList() {
-  $("listSub").textContent = dishes.length ? `${dishes.length} dish${dishes.length === 1 ? "" : "es"} so far. Tap a plate on the table for details.` : "Nothing yet.";
-  $("list").innerHTML = CATEGORIES.map(c => {
+  $("listSub").textContent = dishes.length
+    ? `${dishes.length} dish${dishes.length === 1 ? "" : "es"} so far, grouped by course. Tap a plate on the table for details.`
+    : "Nothing yet. Every course is wide open!";
+  const scale = Math.max(1, new Set(dishes.map(d => d.who.trim())).size / 10);
+  const openNeeds = NEEDS.filter(n => !coveredBy(n, dishes).length).sort((x, y) => y.must - x.must);
+  const canRemove = d => mine.has(d.id) || !REMOTE;
+  const body = CATEGORIES.map(c => {
     const ds = dishes.filter(d => d.cat === c.id);
-    if (!ds.length) return "";
-    return `<div class="group"><h4>${c.emoji} ${c.label}</h4><ul>${ds.map(d => `
-      <li>${flag(d.origin, 11)}<span class="d">${esc(d.dish)}</span><span class="w">${esc(d.who)}${d.serves ? ` · ${esc(d.serves)}` : ""}</span>
-      ${(mine.has(d.id) || !REMOTE) ? `<button class="btn-sm" data-remove="${esc(d.id)}" aria-label="Remove ${esc(d.dish)}">✕</button>` : ""}</li>`).join("")}
-    </ul></div>`;
+    const target = Math.ceil(c.target * scale);
+    if (!ds.length && !target) return "";
+    const open = openNeeds.filter(n => n.cat === c.id).slice(0, 4);
+    const rows = ds.map(d => {
+      const meta = [`${flag(d.origin, 11)}${ORIGIN_LABEL[d.origin]}`, esc(d.who), d.serves ? `serves ${esc(d.serves)}` : "", esc(d.note || "")].filter(Boolean).join(" · ");
+      return `<tr class="drow">
+        <td class="dname"><span class="emo">${guessEmoji(d)}</span>${esc(d.dish)}<div class="m-meta">${meta}</div></td>
+        <td class="trad">${flag(d.origin, 12)}${ORIGIN_LABEL[d.origin]}</td>
+        <td class="who">${esc(d.who)}</td>
+        <td class="num">${d.serves ? esc(d.serves) : "–"}</td>
+        <td class="note">${esc(d.note || "")}</td>
+        <td class="rm">${canRemove(d) ? `<button class="btn-sm" data-remove="${esc(d.id)}" aria-label="Remove ${esc(d.dish)}">✕</button>` : ""}</td>
+      </tr>`;
+    }).join("");
+    const openRow = open.length && (ds.length < target || open.some(n => n.must)) ? `<tr class="open-row"><td colspan="6">${ds.length ? "Still open:" : "Nobody yet. Ideas:"}
+      <span class="chips">${open.map(n => `<button type="button" class="chip sm ${n.must ? "must" : ""}" data-pick="${esc(n.label)}" data-cat="${n.cat}" data-origin="${n.origin === "any" ? "" : n.origin}">${n.origin !== "any" ? flag(n.origin, 9) : ""} ${esc(n.label)}</button>`).join("")}</span></td></tr>` : "";
+    return `<tbody>
+      <tr class="course"><th colspan="6" scope="colgroup">${c.emoji} ${c.label}<span class="count ${target && ds.length < target ? "low" : ""}">${ds.length}${target ? ` / ${target}` : ""}</span></th></tr>
+      ${rows}${openRow}
+    </tbody>`;
   }).join("");
+  const servings = dishes.reduce((s, d) => s + (Number(d.serves) || 0), 0);
+  $("list").innerHTML = `<table class="menu">
+    <thead><tr><th scope="col">Dish</th><th scope="col">Tradition</th><th scope="col">Brought by</th><th scope="col" class="num">Serves</th><th scope="col">Notes</th><th scope="col"><span class="sr">Remove</span></th></tr></thead>
+    ${body}
+    <tfoot><tr><td colspan="3">${dishes.length} dish${dishes.length === 1 ? "" : "es"} · ${new Set(dishes.map(d => d.who.trim())).size} people<span class="m-meta">${servings ? ` · ${servings} servings listed` : ""}</span></td><td class="num">${servings || ""}</td><td colspan="2">${servings ? "servings listed" : ""}</td></tr></tfoot>
+  </table>`;
 }
 
 /* ============================================================
