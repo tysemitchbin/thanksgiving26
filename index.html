@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Thanksgiving × Julebord</title>
-<meta name="description" content="Sign up to bring a dish to our Thanksgiving-meets-julebord feast in Eidsvoll.">
+<meta name="description" content="Sign up to bring a dish to Thanksgiving dinner in Eidsvoll.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦃</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +57,6 @@ body {
   overflow-x: hidden;
 }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px 40px; }
-.flag { display: inline-block; vertical-align: -0.12em; border-radius: 2px; box-shadow: 0 0 0 .5px rgba(0,0,0,.25); }
 
 /* ---------- falling leaves + snow ---------- */
 .leaves { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
@@ -74,7 +73,6 @@ body {
 .hero { position: relative; z-index: 1; text-align: center; padding: 34px 16px 150px; color: #fff; }
 .hero-inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; }
 .hero .kicker { color: #ffb978; }
-.hero .kicker em { color: #c3d4f7; }
 .hero h1 { color: #fff4e6; text-shadow: 0 2px 18px rgba(10,20,50,.55); }
 .hero h1 .times { color: var(--gold); }
 .hero .tagline { color: #fff; text-shadow: 0 1px 8px rgba(10,20,50,.5); }
@@ -82,10 +80,7 @@ body {
 .hero .meta b { color: #fff; }
 .hero .pill { color: var(--ink); }
 @media (max-width: 600px) { .hero { padding-bottom: 118px; } }
-.flags { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 6px; }
-.flags .x { font-family: "Fraunces", serif; color: var(--ink-soft); font-size: 18px; }
 .kicker { font-family: "Caveat", cursive; font-size: 26px; color: var(--pumpkin); margin: 0; }
-.kicker em { font-style: normal; color: var(--fjord); }
 h1 {
   font-family: "Fraunces", serif; font-weight: 800; letter-spacing: -.02em;
   font-size: clamp(34px, 7vw, 66px); line-height: 1.02; margin: 4px 0 6px; color: var(--cranberry);
@@ -108,7 +103,6 @@ h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
 @media (max-width: 960px) { .grid { grid-template-columns: minmax(0, 1fr); } }
 .card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 20px; }
 .card h2 { font-family: "Fraunces", serif; font-size: 22px; margin: 0 0 2px; }
-.card h2 .no { display: block; font-family: "Caveat", cursive; font-weight: 700; font-size: 20px; color: var(--fjord); line-height: 1.1; }
 .card .sub { color: var(--ink-soft); font-size: 14px; margin: 6px 0 14px; }
 
 /* ---------- the table ---------- */
@@ -162,8 +156,6 @@ h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
   transition: left .6s cubic-bezier(.3,1.3,.5,1), top .6s cubic-bezier(.3,1.3,.5,1), width .4s, height .4s, margin .4s, transform .2s;
   cursor: pointer; border: 0; padding: 0; color: inherit; font: inherit;
 }
-.dish.o-us { --rim: #e7a36a; }
-.dish.o-no { --rim: #8ea4cf; }
 .dish:hover, .dish:focus-visible { transform: scale(1.08); z-index: 6; outline: none; }
 .dish:focus-visible { box-shadow: 0 0 0 3px var(--pumpkin), 0 6px 14px rgba(40,15,0,.35); }
 .dish.new { animation: drop .7s cubic-bezier(.3,1.5,.5,1); }
@@ -216,7 +208,6 @@ input:focus, select:focus { outline: none; border-color: var(--pumpkin); box-sha
 /* ---------- suggestions ---------- */
 .side-stack { display: grid; gap: 22px; }
 .most-needed { color: #fff; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; background: linear-gradient(135deg, var(--pumpkin), var(--cranberry)); }
-.most-needed.no { background: linear-gradient(135deg, var(--fjord), var(--nor-red)); }
 .most-needed small { text-transform: uppercase; letter-spacing: .1em; font-size: 11px; opacity: .9; font-weight: 700; }
 .most-needed .big { font-family: "Caveat", cursive; font-size: 32px; line-height: 1.05; font-weight: 700; }
 .most-needed .what { font-size: 13px; opacity: .9; }
@@ -229,21 +220,12 @@ input:focus, select:focus { outline: none; border-color: var(--pumpkin); box-sha
 }
 .chip:hover { border-color: var(--pumpkin); background: #fff6ec; transform: translateY(-1px); }
 .chip.must { border-color: rgba(155,35,53,.45); }
+.chip.more { border-style: dashed; color: var(--ink-soft); }
 .chip.must::after { content: "★"; color: var(--cranberry); }
 .chip.done { text-decoration: line-through; color: var(--ink-soft); background: #f6efe4; cursor: default; opacity: .75; }
 .chip.done:hover { transform: none; border-color: var(--line); }
-.filter { display: flex; gap: 6px; margin-bottom: 10px; }
-.filter button { appearance: none; font: inherit; font-size: 13px; cursor: pointer; border: 1.5px solid var(--line); background: transparent; border-radius: 8px; padding: 3px 10px; color: var(--ink-soft); display: inline-flex; gap: 5px; align-items: center; }
-.filter button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
 h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin: 18px 0 8px; }
 
-.pot { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; font-size: 14px; font-variant-numeric: tabular-nums; }
-.pot-bar { height: 14px; border-radius: 999px; overflow: hidden; display: flex; background: #efe3d1; }
-.pot-bar i { display: block; height: 100%; transition: width .5s; }
-.pot-bar .us { background: linear-gradient(90deg, var(--cranberry), var(--pumpkin)); }
-.pot-bar .ot { background: var(--gold); }
-.pot-bar .no { background: linear-gradient(90deg, var(--fjord), #3c5d9c); }
-.pot-cap { font-size: 13px; color: var(--ink-soft); margin-top: 4px; text-align: center; }
 
 .meters { display: grid; gap: 8px; }
 .meter { display: grid; grid-template-columns: 104px 1fr 42px; align-items: center; gap: 8px; font-size: 14px; }
@@ -269,8 +251,6 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 .menu .count.low { color: #fff; background: var(--pumpkin); border-color: var(--pumpkin); }
 .menu td.dname { font-family: "Caveat", cursive; font-size: 23px; font-weight: 700; line-height: 1.1; }
 .menu td.dname .emo { font-size: 18px; margin-right: 4px; }
-.menu td.trad { white-space: nowrap; font-size: 14px; }
-.menu td.trad .flag, .menu td.trad span[role] { margin-right: 6px; }
 .menu td.who { font-weight: 700; white-space: nowrap; }
 .menu td.note { color: var(--ink-soft); font-size: 14px; }
 .menu td.rm { width: 1%; white-space: nowrap; }
@@ -280,9 +260,9 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 .menu .open-row td { font-size: 13px; color: var(--ink-soft); background: #fffdf9; }
 .menu .open-row .chips { display: inline-flex; gap: 6px; vertical-align: middle; margin-left: 6px; }
 .chip.sm { font-size: 12px; padding: 2px 9px; }
-.menu tfoot td { border-bottom: 0; font-weight: 700; padding-top: 12px; color: var(--ink-soft); font-size: 14px; }
+.menu tfoot td { white-space: nowrap; border-bottom: 0; font-weight: 700; padding-top: 12px; color: var(--ink-soft); font-size: 14px; }
 @media (max-width: 640px) {
-  .menu thead, .menu td.trad, .menu td.who, .menu td.num, .menu td.note, .menu tfoot td:not(:first-child) { display: none; }
+  .menu thead, .menu td.who, .menu td.num, .menu td.note, .menu tfoot td:not(:first-child) { display: none; }
   .menu, .menu tbody, .menu tfoot, .menu tr, .menu th, .menu td { display: block; width: 100%; }
   .menu tfoot .m-meta { display: inline; }
   .menu tr.drow { display: grid !important; grid-template-columns: 1fr auto; align-items: center; border-bottom: 1px solid var(--line); }
@@ -317,7 +297,6 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 <header class="scene hero">
   <div class="scene-bg" aria-hidden="true"></div>
   <div class="hero-inner">
-    <div class="flags" id="headFlags"></div>
     <p class="kicker">du er invitert</p>
     <h1 id="title">Thanksgiving × Julebord</h1>
     <p class="tagline" id="tagline"></p>
@@ -341,7 +320,7 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
         <div class="table" id="table">
           <div class="cloth"><div class="runner"></div></div>
           <div id="candles" aria-hidden="true"></div>
-          <div class="empty-msg" id="emptyMsg"><div><span>🕯️🍂</span>The table's bare! Be the first to bring something.<i>Bordet er tomt!</i></div></div>
+          <div class="empty-msg" id="emptyMsg"><div><span>🕯️🍂</span>The table's bare! Be the first to bring something.</div></div>
         </div>
       </div>
     </section>
@@ -349,12 +328,12 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
     <!-- SIDEBAR -->
     <div class="side-stack">
       <form class="card" id="form" autocomplete="on">
-        <h2>Bring a dish <span class="no">Ta med en rett</span></h2>
-        <p class="sub">Turkey or ribbe, pie or riskrem: add yours and it lands on the table.</p>
+        <h2>Bring a dish</h2>
+        <p class="sub">Add yours and it lands on the table.</p>
         <label for="who">Your name</label>
-        <input id="who" name="who" required maxlength="30" placeholder="e.g. Ingrid">
+        <input id="who" name="who" required maxlength="30" placeholder="e.g. Sam">
         <label for="dish">What are you bringing?</label>
-        <input id="dish" name="dish" required maxlength="40" placeholder="e.g. Pinnekjøtt, mac & cheese…">
+        <input id="dish" name="dish" required maxlength="40" placeholder="e.g. Grandma's mac & cheese">
         <div id="dupWarn"></div>
         <div class="row">
           <div>
@@ -362,38 +341,24 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
             <select id="cat" name="cat"></select>
           </div>
           <div>
-            <label for="origin">Tradition</label>
-            <select id="origin" name="origin">
-              <option value="us">🇺🇸 Thanksgiving</option>
-              <option value="no">🇳🇴 Julebord</option>
-              <option value="other">🌍 Family recipe / other</option>
-            </select>
-          </div>
-        </div>
-        <div class="row sn">
-          <div>
             <label for="serves">Serves</label>
             <input id="serves" name="serves" type="number" min="1" max="99" placeholder="8">
           </div>
-          <div>
+        </div>
+        <div>
             <label for="note">Note <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label>
             <input id="note" name="note" maxlength="80" placeholder="vegan, nut-free, needs oven…">
           </div>
-        </div>
-        <button class="btn" id="submitBtn" type="submit">🍽️ Put it on the table<small>Sett den på bordet</small></button>
+        <button class="btn" id="submitBtn" type="submit">🍽️ Put it on the table</button>
         <div class="ok" id="ok" role="status"></div>
       </form>
 
       <section class="card" aria-labelledby="sugHeading">
-        <h2 id="sugHeading">What's still needed <span class="no">Hva mangler?</span></h2>
+        <h2 id="sugHeading">What's still needed</h2>
         <p class="sub">Tap one to fill in the form. ★ = a must-have.</p>
         <div id="mostNeeded"></div>
-        <div class="filter" role="group" aria-label="Filter suggestions" id="filter"></div>
         <div class="chips" id="needChips"></div>
 
-        <h3>Melting pot</h3>
-        <div class="pot" id="pot"></div>
-        <div class="pot-cap" id="potCap"></div>
 
         <h3>Spread check</h3>
         <div class="meters" id="meters"></div>
@@ -405,7 +370,7 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
   </div>
 
   <section class="card list-card" aria-labelledby="listHeading">
-    <h2 id="listHeading">Who's bringing what <span class="no">Hvem tar med hva</span></h2>
+    <h2 id="listHeading">Who's bringing what</h2>
     <p class="sub" id="listSub">Nothing yet.</p>
     <div class="menu-wrap" id="list"></div>
   </section>
@@ -414,28 +379,15 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 <footer class="scene foot">
   <div class="scene-bg" aria-hidden="true"></div>
   <div class="scene-cap">
-    <div class="big">Takk for maten · Thanks for the food</div>
-    <div class="small" id="sceneNote">Eidsvoll, Norge · where Norway's constitution was adopted in 1814, and where our turkey gets carved this year</div>
+    <div class="big">Thanks for the food 🦃</div>
+    <div class="small" id="sceneNote">Eidsvoll, Norway</div>
   </div>
 </footer>
 
 <script>
 /* ============================================================
-   Little drawings: flags, Selbu star, Eidsvoll scene
+   Little drawings: Selbu star, Eidsvoll scene
    ============================================================ */
-function flag(code, h = 12) {
-  if (code === "us") {
-    const w = h * 1.6, s = h / 7;
-    let stripes = "";
-    for (let i = 0; i < 7; i++) stripes += `<rect y="${i * s}" width="${w}" height="${s}" fill="${i % 2 ? "#fff" : "#b22234"}"/>`;
-    return `<svg class="flag" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-label="USA" role="img">${stripes}<rect width="${w * .42}" height="${s * 4}" fill="#3c3b6e"/></svg>`;
-  }
-  if (code === "no") {
-    return `<svg class="flag" width="${h * 22 / 16}" height="${h}" viewBox="0 0 22 16" aria-label="Norway" role="img"><rect width="22" height="16" fill="#ba0c2f"/><rect x="6" width="4" height="16" fill="#fff"/><rect y="6" width="22" height="4" fill="#fff"/><rect x="7" width="2" height="16" fill="#00205b"/><rect y="7" width="22" height="2" fill="#00205b"/></svg>`;
-  }
-  return `<span aria-label="Other" role="img" style="font-size:${h}px;line-height:1">🌍</span>`;
-}
-
 (function selbu() {
   // An 8-pointed Selbu rose made of rhombus petals, on a knitted-looking tile.
   const petal = `<polygon points="0,-1.5 2.4,-5.5 0,-11 -2.4,-5.5" fill="#fff"/>`;
@@ -485,62 +437,82 @@ function flag(code, h = 12) {
 })();
 
 /* ============================================================
-   Menu knowledge: what a Thanksgiving × julebord table "needs"
-   origin: "us" (Thanksgiving), "no" (julebord), "any" (either)
+   Menu knowledge: what a Thanksgiving table "needs"
    ============================================================ */
 const CATEGORIES = [
-  { id: "Main",      label: "Mains",      emoji: "🦃", target: 2 },
+  { id: "Main",      label: "Mains",      emoji: "🦃", target: 1 },
   { id: "Side",      label: "Sides",      emoji: "🥔", target: 6 },
   { id: "Bread",     label: "Bread",      emoji: "🥖", target: 1 },
   { id: "Appetizer", label: "Appetizers", emoji: "🧀", target: 2 },
   { id: "Dessert",   label: "Desserts",   emoji: "🥧", target: 3 },
-  { id: "Drinks",    label: "Drinks",     emoji: "🍷", target: 3 },
+  { id: "Drinks",    label: "Drinks",     emoji: "🍷", target: 2 },
   { id: "Other",     label: "Other",      emoji: "🧺", target: 0 },
 ];
 const CAT = Object.fromEntries(CATEGORIES.map(c => [c.id, c]));
 
+// match = word stems. Each dish counts toward its single best match: same course first, then the longest stem.
 const NEEDS = [
-  // 🇺🇸 Thanksgiving
-  { label: "Turkey",               origin: "us", cat: "Main",      must: true,  emoji: "🦃", match: ["turkey", "tofurky"] },
-  { label: "Mashed potatoes",      origin: "us", cat: "Side",      must: true,  emoji: "🥔", match: ["mashed", "potet", "potato"] },
-  { label: "Stuffing",             origin: "us", cat: "Side",      must: true,  emoji: "🥣", match: ["stuffing", "dressing"] },
-  { label: "Gravy",                origin: "us", cat: "Side",      must: true,  emoji: "🥄", match: ["gravy", "saus"] },
-  { label: "Cranberry sauce",      origin: "us", cat: "Side",      must: true,  emoji: "🍒", match: ["cranberr"] },
-  { label: "Dinner rolls",         origin: "us", cat: "Bread",     must: false, emoji: "🥖", match: ["roll", "bread", "biscuit", "cornbread", "croissant", "brød", "rundstykke"] },
-  { label: "Pumpkin pie",          origin: "us", cat: "Dessert",   must: true,  emoji: "🥧", match: ["pumpkin", "gresskar"] },
-  { label: "Green bean casserole", origin: "us", cat: "Side",      must: false, emoji: "🫛", match: ["green bean", "green-bean", "string bean"] },
-  { label: "Sweet potatoes",       origin: "us", cat: "Side",      must: false, emoji: "🍠", match: ["sweet potato", "yam", "søtpotet"] },
-  { label: "Mac & cheese",         origin: "us", cat: "Side",      must: false, emoji: "🧀", match: ["mac ", "mac&", "macaroni", "mac and"] },
-  { label: "Corn",                 origin: "us", cat: "Side",      must: false, emoji: "🌽", match: ["corn on", "creamed corn", "corn casserole", "mais"] },
-  { label: "Apple or pecan pie",   origin: "us", cat: "Dessert",   must: false, emoji: "🍎", match: ["apple pie", "pecan", "cobbler", "crumble", "eplekake", "eplepai"] },
-  { label: "Deviled eggs",         origin: "us", cat: "Appetizer", must: false, emoji: "🥚", match: ["deviled", "egg"] },
-  { label: "Apple cider",          origin: "us", cat: "Drinks",    must: false, emoji: "🍎", match: ["cider", "eplemost"] },
-  // 🇳🇴 Julebord
-  { label: "Ribbe",                origin: "no", cat: "Main",      must: true,  emoji: "🥓", hint: "crispy-skinned pork belly", match: ["ribbe", "pork belly", "svineribbe"] },
-  { label: "Pinnekjøtt",           origin: "no", cat: "Main",      must: false, emoji: "🍖", hint: "salted, steamed lamb ribs", match: ["pinnekjøtt", "pinnekjott", "pinnekjot", "lamb rib"] },
-  { label: "Medisterkaker",        origin: "no", cat: "Main",      must: false, emoji: "🧆", hint: "pork patties & sausage", match: ["medister"] },
-  { label: "Lutefisk",             origin: "no", cat: "Main",      must: false, emoji: "🐟", hint: "lye fish. For the brave.", match: ["lutefisk", "lutfisk"] },
-  { label: "Surkål",               origin: "no", cat: "Side",      must: true,  emoji: "🥬", hint: "sweet-sour caraway cabbage", match: ["surkål", "surkal", "sauerkraut"] },
-  { label: "Rødkål",               origin: "no", cat: "Side",      must: false, emoji: "🟣", hint: "braised red cabbage", match: ["rødkål", "rodkal", "red cabbage"] },
-  { label: "Kålrabistappe",        origin: "no", cat: "Side",      must: false, emoji: "🧡", hint: "mashed rutabaga, goes with pinnekjøtt", match: ["kålrabi", "kalrabi", "kålrot", "kalrot", "rutabaga", "swede"] },
-  { label: "Tyttebær",             origin: "no", cat: "Side",      must: false, emoji: "🫐", hint: "lingonberry jam", match: ["tyttebær", "tyttebaer", "lingon"] },
-  { label: "Lefse",                origin: "no", cat: "Bread",     must: false, emoji: "🫓", hint: "soft potato flatbread", match: ["lefse", "lomper", "flatbrød", "flatbrod"] },
-  { label: "Sild",                 origin: "no", cat: "Appetizer", must: false, emoji: "🐟", hint: "pickled herring", match: ["sild", "herring"] },
-  { label: "Brunost",              origin: "no", cat: "Appetizer", must: false, emoji: "🧀", hint: "sweet brown cheese", match: ["brunost", "brown cheese", "geitost", "gudbrandsdal"] },
-  { label: "Riskrem",              origin: "no", cat: "Dessert",   must: true,  emoji: "🍚", hint: "rice cream with red berry sauce", match: ["riskrem", "rice cream", "rice pudding", "risgrøt", "risgrot"] },
-  { label: "Syv slag kaker",       origin: "no", cat: "Dessert",   must: false, emoji: "🍪", hint: "the seven kinds of Christmas cookies", match: ["pepperkake", "krumkake", "sandkake", "berlinerkrans", "goro", "fattigmann", "smultring", "serinakake", "kakemenn", "syv slag", "7 slag", "cookie", "småkake"] },
-  { label: "Multekrem",            origin: "no", cat: "Dessert",   must: false, emoji: "🧡", hint: "cloudberries & whipped cream", match: ["multe", "cloudberr"] },
-  { label: "Kransekake",           origin: "no", cat: "Dessert",   must: false, emoji: "🎂", hint: "tower of almond rings", match: ["kransekake"] },
-  { label: "Gløgg",                origin: "no", cat: "Drinks",    must: true,  emoji: "🍷", hint: "hot spiced wine with raisins & almonds", match: ["gløgg", "glogg", "mulled"] },
-  { label: "Akevitt",              origin: "no", cat: "Drinks",    must: false, emoji: "🥃", hint: "caraway spirit. Skål!", match: ["akevitt", "aquavit", "akvavit"] },
-  { label: "Juleøl",               origin: "no", cat: "Drinks",    must: false, emoji: "🍺", hint: "Christmas beer", match: ["juleøl", "juleol", "christmas beer", "beer", "øl"] },
-  { label: "Julebrus",             origin: "no", cat: "Drinks",    must: false, emoji: "🥤", hint: "Christmas soda, for the kids & drivers", match: ["julebrus"] },
-  // 🌍 Either
-  { label: "Something green",      origin: "any", cat: "Side",     must: false, emoji: "🥗", match: ["salad", "slaw", "brussel", "carrot", "veg", "broccoli", "asparagus", "salat", "grønnsak"] },
-  { label: "Wine",                 origin: "any", cat: "Drinks",   must: false, emoji: "🍷", match: ["wine", "vin", "prosecco", "champagne", "sparkling wine"] },
-  { label: "Alcohol-free drinks",  origin: "any", cat: "Drinks",   must: true,  emoji: "🧃", match: ["soda", "juice", "seltzer", "lemonade", "sparkling water", "farris", "punch", "mocktail", "brus", "saft", "julebrus"] },
-  { label: "Coffee",               origin: "any", cat: "Drinks",   must: false, emoji: "☕", match: ["coffee", "kaffe"] },
-  { label: "Plates & napkins",     origin: "any", cat: "Other",    must: false, emoji: "🧻", match: ["plate", "napkin", "serviett", "cutler", "utensil", "cups", "foil", "container"] },
+  // Mains
+  { label: "Turkey",                 cat: "Main",      must: true,  emoji: "🦃", match: ["turkey", "tofurky"] },
+  { label: "Ham",                    cat: "Main",      must: false, emoji: "🍖", match: ["ham", "glazed ham", "spiral ham"] },
+  // Sides
+  { label: "Mashed potatoes",        cat: "Side",      must: true,  emoji: "🥔", match: ["mashed", "potato"] },
+  { label: "Stuffing",               cat: "Side",      must: true,  emoji: "🥣", match: ["stuffing", "dressing", "cornbread stuffing", "cornbread dressing"] },
+  { label: "Gravy",                  cat: "Side",      must: true,  emoji: "🥄", match: ["gravy"] },
+  { label: "Cranberry sauce",        cat: "Side",      must: true,  emoji: "🍒", match: ["cranberr"] },
+  { label: "Green bean casserole",   cat: "Side",      must: false, emoji: "🫛", match: ["green bean", "green-bean", "string bean", "haricot"] },
+  { label: "Sweet potato casserole", cat: "Side",      must: false, emoji: "🍠", match: ["sweet potato", "yam", "candied"] },
+  { label: "Mac & cheese",           cat: "Side",      must: false, emoji: "🧀", match: ["mac ", "mac&", "macaroni", "mac and"] },
+  { label: "Scalloped potatoes",     cat: "Side",      must: false, emoji: "🥔", match: ["scalloped", "au gratin", "potato gratin", "funeral potato", "cheesy potato", "hasselback"] },
+  { label: "Corn casserole",         cat: "Side",      must: false, emoji: "🌽", match: ["corn casserole", "creamed corn", "corn pudding", "corn souffl", "corn on", "succotash", "elote"] },
+  { label: "Brussels sprouts",       cat: "Side",      must: false, emoji: "🥬", match: ["brussel"] },
+  { label: "Glazed carrots",         cat: "Side",      must: false, emoji: "🥕", match: ["carrot"] },
+  { label: "Roasted butternut squash", cat: "Side",    must: false, emoji: "🎃", match: ["squash", "butternut", "acorn"] },
+  { label: "Roasted root veggies",   cat: "Side",      must: false, emoji: "🥕", match: ["root veg", "roasted veg", "parsnip", "beet", "veggie", "vegetable", "cauliflower", "broccoli", "asparagus"] },
+  { label: "Creamed spinach",        cat: "Side",      must: false, emoji: "🥬", match: ["spinach"] },
+  { label: "Collard greens",         cat: "Side",      must: false, emoji: "🥬", match: ["collard", "greens", "kale"] },
+  { label: "Wild rice pilaf",        cat: "Side",      must: false, emoji: "🍚", match: ["wild rice", "rice", "pilaf"] },
+  { label: "Green salad",            cat: "Side",      must: false, emoji: "🥗", match: ["salad", "slaw"] },
+  { label: "Waldorf salad",          cat: "Side",      must: false, emoji: "🍏", match: ["waldorf"] },
+  { label: "Jell-O salad",           cat: "Side",      must: false, emoji: "🟥", match: ["jell", "jello", "ambrosia", "fluff", "congealed"] },
+  // Bread
+  { label: "Dinner rolls",           cat: "Bread",     must: true,  emoji: "🥖", match: ["roll", "bread", "croissant", "parker house", "crescent"] },
+  { label: "Cornbread",              cat: "Bread",     must: false, emoji: "🌽", match: ["cornbread", "corn bread", "corn muffin"] },
+  { label: "Biscuits",               cat: "Bread",     must: false, emoji: "🥐", match: ["biscuit"] },
+  // Appetizers
+  { label: "Cheese board",           cat: "Appetizer", must: false, emoji: "🧀", match: ["cheese board", "charcuterie", "cheese plate", "cheese & crack", "cheese and crack", "cheese ball"] },
+  { label: "Deviled eggs",           cat: "Appetizer", must: false, emoji: "🥚", match: ["deviled", "egg"] },
+  { label: "Dip & chips",            cat: "Appetizer", must: false, emoji: "🥨", match: ["dip", "chip", "salsa", "hummus", "guac", "spinach artichoke", "spinach dip", "artichoke"] },
+  { label: "Veggie tray",            cat: "Appetizer", must: false, emoji: "🥒", match: ["veggie tray", "vegetable tray", "crudit"] },
+  { label: "Relish tray",            cat: "Appetizer", must: false, emoji: "🫒", match: ["relish", "pickle", "olive"] },
+  { label: "Pigs in a blanket",      cat: "Appetizer", must: false, emoji: "🌭", match: ["pigs in", "sausage roll", "little smokies"] },
+  // Desserts
+  { label: "Pumpkin pie",            cat: "Dessert",   must: true,  emoji: "🥧", match: ["pumpkin pie", "pumpkin"] },
+  { label: "Apple pie",              cat: "Dessert",   must: false, emoji: "🍎", match: ["apple pie", "dutch apple", "apple"] },
+  { label: "Pecan pie",              cat: "Dessert",   must: false, emoji: "🥧", match: ["pecan"] },
+  { label: "Sweet potato pie",       cat: "Dessert",   must: false, emoji: "🍠", match: ["sweet potato pie"] },
+  { label: "Cherry pie",             cat: "Dessert",   must: false, emoji: "🍒", match: ["cherry"] },
+  { label: "Chocolate cream pie",    cat: "Dessert",   must: false, emoji: "🍫", match: ["chocolate pie", "chocolate cream", "french silk", "chocolate"] },
+  { label: "Apple crisp or cobbler", cat: "Dessert",   must: false, emoji: "🍏", match: ["apple crisp", "crumble", "cobbler", "crisp"] },
+  { label: "Cheesecake",             cat: "Dessert",   must: false, emoji: "🍰", match: ["cheesecake"] },
+  { label: "Pumpkin roll or bread",  cat: "Dessert",   must: false, emoji: "🎃", match: ["pumpkin roll", "pumpkin bread", "pumpkin muffin", "pumpkin cake"] },
+  { label: "Bread pudding",          cat: "Dessert",   must: false, emoji: "🍮", match: ["bread pudding"] },
+  { label: "Banana pudding",         cat: "Dessert",   must: false, emoji: "🍌", match: ["banana"] },
+  { label: "Carrot cake",            cat: "Dessert",   must: false, emoji: "🍰", match: ["carrot cake"] },
+  { label: "Cookies",                cat: "Dessert",   must: false, emoji: "🍪", match: ["cookie", "snickerdoodle"] },
+  { label: "Brownies",               cat: "Dessert",   must: false, emoji: "🍫", match: ["brownie", "blondie"] },
+  { label: "Whipped cream",          cat: "Dessert",   must: false, emoji: "🍦", match: ["whip", "cool whip"] },
+  { label: "Vanilla ice cream",      cat: "Dessert",   must: false, emoji: "🍨", match: ["ice cream", "gelato"] },
+  // Drinks
+  { label: "Alcohol-free drinks",    cat: "Drinks",    must: true,  emoji: "🧃", match: ["soda", "juice", "seltzer", "lemonade", "sparkling water", "punch", "mocktail", "brus"] },
+  { label: "Apple cider",            cat: "Drinks",    must: false, emoji: "🍎", match: ["cider", "apple cider", "hot cider"] },
+  { label: "Wine",                   cat: "Drinks",    must: false, emoji: "🍷", match: ["wine", "prosecco", "champagne"] },
+  { label: "Beer",                   cat: "Drinks",    must: false, emoji: "🍺", match: ["beer", "ipa", "lager"] },
+  { label: "Gløgg",                  cat: "Drinks",    must: false, emoji: "🍷", hint: "hot spiced wine, perfect for a snowy night", match: ["gløgg", "glogg", "mulled"] },
+  { label: "Coffee",                 cat: "Drinks",    must: false, emoji: "☕", match: ["coffee", "kaffe"] },
+  // Other
+  { label: "Ice",                    cat: "Other",     must: false, emoji: "🧊", match: ["bag of ice", "ice bag", "ice"] },
+  { label: "Plates & napkins",       cat: "Other",     must: false, emoji: "🧻", match: ["plate", "napkin", "cutler", "utensil", "cups", "foil", "container"] },
 ];
 
 const EMOJI_HINTS = [
@@ -550,31 +522,37 @@ const EMOJI_HINTS = [
   ["roll", "🥖"], ["biscuit", "🥐"], ["cheese", "🧀"], ["mac", "🧀"], ["egg", "🥚"], ["carrot", "🥕"],
   ["bean", "🫛"], ["brussel", "🥬"], ["cranberr", "🍒"], ["apple", "🍎"], ["pumpkin", "🎃"], ["soup", "🍲"],
   ["dip", "🥣"], ["chip", "🥔"], ["gravy", "🥄"], ["stuffing", "🥣"], ["ice cream", "🍨"], ["whip", "🍦"],
-  ["soda", "🥤"], ["juice", "🧃"], ["punch", "🍹"], ["napkin", "🧻"], ["plate", "🍽️"],
+  ["cherry", "🍒"], ["banana", "🍌"], ["cheesecake", "🍰"], ["spinach", "🥬"], ["collard", "🥬"], ["rice", "🍚"], ["squash", "🎃"], ["jell", "🟥"], ["pickle", "🥒"], ["pigs in", "🌭"], ["cornbread", "🌽"], ["sweet potato pie", "🍠"], ["pudding", "🍮"], ["soda", "🥤"], ["juice", "🧃"], ["punch", "🍹"], ["napkin", "🧻"], ["plate", "🍽️"],
   ["ribbe", "🥓"], ["pinnekjøtt", "🍖"], ["pinnekjott", "🍖"], ["medister", "🧆"], ["lutefisk", "🐟"], ["sild", "🐟"], ["laks", "🐟"], ["salmon", "🐟"],
   ["surkål", "🥬"], ["rødkål", "🥬"], ["lefse", "🫓"], ["brunost", "🧀"], ["riskrem", "🍚"], ["risgrøt", "🍚"],
   ["pepperkake", "🍪"], ["krumkake", "🍦"], ["multe", "🍨"], ["kransekake", "🎂"], ["gløgg", "🍷"], ["glogg", "🍷"],
   ["akevitt", "🥃"], ["aquavit", "🥃"], ["juleøl", "🍺"], ["julebrus", "🥤"], ["tyttebær", "🫐"], ["kålrabi", "🧡"],
 ];
 
-const NO_CHARS = /[æøå]/i;
 const norm = s => " " + s.toLowerCase().replace(/[^\p{L}\p{N}& ]+/gu, " ").replace(/\s+/g, " ") + " ";
 const hits = (text, stem) => norm(text).includes(" " + stem.trim());
-const coveredBy = (need, dishes) => dishes.filter(d => need.match.some(m => hits(d.dish, m)));
+function bestNeed(text, cat) {
+  let best = null, score = -1;
+  for (const n of NEEDS) for (const m of n.match) {
+    if (!hits(text, m)) continue;
+    const sc = m.trim().length + (cat && n.cat === cat ? 100 : 0);
+    if (sc > score) { best = n; score = sc; }
+  }
+  return best;
+}
+const coveredBy = (need, dishes) => dishes.filter(d => bestNeed(d.dish, d.cat) === need);
 function guessEmoji(d) {
   let best = null, len = 0;
   for (const [k, e] of EMOJI_HINTS) if (hits(d.dish, k) && k.length > len) { best = e; len = k.length; }
   return best || CAT[d.cat]?.emoji || "🍽️";
 }
 function guess(text) {
-  let cat = null, origin = null;
-  for (const n of NEEDS) if (n.match.some(m => hits(text, m))) { cat ??= n.cat; if (n.origin !== "any") { origin ??= n.origin; } }
-  if (!cat && /\b(cake|cookie|brownie|tart|pudding|fudge|bar|kake)s?\b/i.test(text)) cat = "Dessert";
-  if (!cat && /\b(drink|cocktail|bourbon|whiskey)\b/i.test(text)) cat = "Drinks";
-  if (!origin && NO_CHARS.test(text)) origin = "no";
-  return { cat, origin };
+  const n = bestNeed(text);
+  if (n) return { cat: n.cat };
+  if (/\b(cake|tart|pudding|fudge|bar|pie)s?\b/i.test(text)) return { cat: "Dessert" };
+  if (/\b(drink|cocktail|bourbon|whiskey)\b/i.test(text)) return { cat: "Drinks" };
+  return { cat: null };
 }
-const ORIGIN_LABEL = { us: "Thanksgiving", no: "Julebord", other: "Family recipe" };
 
 /* ============================================================
    Storage: Supabase REST if configured, else localStorage
@@ -619,7 +597,6 @@ const api = {
 let dishes = [];
 let mine = new Set(safeGet(MINE_KEY, []));
 let justAdded = null;
-let needFilter = "all";
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
@@ -627,16 +604,12 @@ function setupHeader() {
   document.title = EVENT.title;
   $("title").innerHTML = esc(EVENT.title).replace("×", `<span class="times">×</span>`);
   $("tagline").textContent = EVENT.tagline || "";
-  $("headFlags").innerHTML = `${flag("us", 20)}<span class="x">×</span>${flag("no", 20)}`;
   $("dateLabel").innerHTML = EVENT.dateLabel ? `📅 <b>${esc(EVENT.dateLabel)}</b>` : "";
   $("place").innerHTML = EVENT.place ? `📍 ${esc(EVENT.place)}` : "";
   const days = Math.ceil((new Date(EVENT.date) - new Date()) / 864e5);
-  $("countdown").textContent = isNaN(days) ? "" : days > 1 ? `⏳ ${days} days to go` : days === 1 ? "⏳ Tomorrow!" : days === 0 ? "🎉 Today! Skål!" : "🥧 Takk for maten!";
+  $("countdown").textContent = isNaN(days) ? "" : days > 1 ? `⏳ ${days} days to go` : days === 1 ? "⏳ Tomorrow!" : days === 0 ? "🎉 Today!" : "🥧 Hope it was delicious";
   $("cat").innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.emoji} ${c.label.replace(/s$/, "")}</option>`).join("");
   $("cat").value = "Side";
-  $("origin").value = "us";
-  $("filter").innerHTML = [["all", "All"], ["us", flag("us", 11) + " Thanksgiving"], ["no", flag("no", 11) + " Julebord"]]
-    .map(([k, l]) => `<button type="button" data-filter="${k}" aria-pressed="${k === needFilter}">${l}</button>`).join("");
   const fall = ["🍂", "❄️", "🍁", "❄️", "🍃", "❄️"];
   $("leaves").innerHTML = Array.from({ length: 14 }, (_, i) =>
     `<span class="leaf ${fall[i % 6] === "❄️" ? "snow" : ""}" style="left:${(i * 73) % 100}%;animation-duration:${14 + (i * 7) % 12}s;animation-delay:-${(i * 3.1) % 14}s">${fall[i % 6]}</span>`).join("");
@@ -678,10 +651,8 @@ function renderTable(guests) {
       if (d.id === justAdded) { el.classList.add("new"); setTimeout(() => el.classList.remove("new"), 800); }
     }
     existing.delete(d.id);
-    el.classList.remove("o-us", "o-no", "o-other");
-    el.classList.add(`o-${d.origin}`);
-    el.setAttribute("aria-label", `${d.dish} (${ORIGIN_LABEL[d.origin]}), brought by ${d.who}`);
-    el.innerHTML = `<div class="dish-inner"><div class="emo">${guessEmoji(d)}</div><div class="name">${esc(d.dish)}</div><div class="who">${d.origin !== "other" ? flag(d.origin, Math.max(7, p * .075)) : ""}${esc(d.who)}</div></div>`;
+    el.setAttribute("aria-label", `${d.dish}, brought by ${d.who}`);
+    el.innerHTML = `<div class="dish-inner"><div class="emo">${guessEmoji(d)}</div><div class="name">${esc(d.dish)}</div><div class="who">${esc(d.who)}</div></div>`;
     const [x, y] = spots[i] || [a, b];
     el.style.setProperty("--p", `${p}px`);
     el.style.left = `${x}px`; el.style.top = `${y}px`;
@@ -742,7 +713,7 @@ function showTip(id) {
   const tip = document.createElement("div");
   tip.className = "tip"; tip.id = "tip";
   const bits = [d.serves ? `serves ${esc(d.serves)}` : "", d.note ? esc(d.note) : ""].filter(Boolean).join(" · ");
-  tip.innerHTML = `<b>${esc(d.dish)}</b>${flag(d.origin, 11)} ${ORIGIN_LABEL[d.origin]} · ${esc(CAT[d.cat]?.label.replace(/s$/, "") || d.cat)} · from ${esc(d.who)}${bits ? `<div class="note">${bits}</div>` : ""}` +
+  tip.innerHTML = `<b>${esc(d.dish)}</b>${CAT[d.cat]?.emoji || ""} ${esc(CAT[d.cat]?.label.replace(/s$/, "") || d.cat)} · from ${esc(d.who)}${bits ? `<div class="note">${bits}</div>` : ""}` +
     (mine.has(d.id) || !REMOTE ? `<button class="btn-sm" data-remove="${esc(d.id)}">Remove</button>` : "");
   const left = Math.min(Math.max(parseFloat(el.style.left), 115), $("table").clientWidth - 115);
   tip.style.left = `${left}px`;
@@ -755,51 +726,38 @@ document.addEventListener("click", hideTip);
 document.addEventListener("keydown", e => e.key === "Escape" && hideTip());
 
 /* ---- suggestions ---- */
+let showAllIdeas = false;
+const pickAttrs = n => `data-pick="${esc(n.label)}" data-cat="${n.cat}"`;
 function renderSuggestions(guestCount) {
   const scale = Math.max(1, guestCount / 10);
   const counts = Object.fromEntries(CATEGORIES.map(c => [c.id, 0]));
   dishes.forEach(d => counts[d.cat] = (counts[d.cat] || 0) + 1);
-  const by = { us: 0, no: 0, other: 0 };
-  dishes.forEach(d => by[d.origin]++);
 
   const status = NEEDS.map(n => ({ ...n, by: coveredBy(n, dishes) }));
   const isDone = label => status.find(n => n.label === label).by.length > 0;
   const open = status.filter(n => !n.by.length);
-  // priority: must-haves, then the cuisine that's behind, then the course that's short
-  const lagging = by.us > by.no ? "no" : by.no > by.us ? "us" : null;
+  // priority: must-haves first, then whatever course is furthest below target
   const deficit = c => (CAT[c].target * scale) - counts[c];
-  const score = n => n.must * 10 + (n.origin === lagging ? 3 : 0) + deficit(n.cat);
-  open.sort((x, y) => score(y) - score(x));
+  open.sort((x, y) => (y.must - x.must) || (deficit(y.cat) - deficit(x.cat)));
 
   const top = open[0];
-  const pickBtn = n => `data-pick="${esc(n.label)}" data-cat="${n.cat}" data-origin="${n.origin === "any" ? "" : n.origin}"`;
   $("mostNeeded").innerHTML = top ? `
-    <div class="most-needed ${top.origin === "no" ? "no" : ""}">
-      <small>Most needed right now ${top.origin !== "any" ? flag(top.origin, 10) : ""}</small>
+    <div class="most-needed">
+      <small>Most needed right now</small>
       <div class="big">${top.emoji} ${esc(top.label)}</div>
       ${top.hint ? `<div class="what">${esc(top.hint)}</div>` : ""}
-      <button class="btn-sm" type="button" ${pickBtn(top)}>I'll bring it →</button>
-    </div>` : `<div class="most-needed"><small>Status</small><div class="big">🎉 Both traditions covered!</div></div>`;
+      <button class="btn-sm" type="button" ${pickAttrs(top)}>I'll bring it →</button>
+    </div>` : `<div class="most-needed"><small>Status</small><div class="big">🎉 The classics are covered!</div></div>`;
 
-  const shown = open.slice(top ? 1 : 0).filter(n => needFilter === "all" || n.origin === needFilter || n.origin === "any");
-  $("needChips").innerHTML = shown.map(n =>
-    `<button type="button" class="chip ${n.must ? "must" : ""}" ${pickBtn(n)} ${n.hint ? `title="${esc(n.hint)}"` : ""}>${n.origin !== "any" ? flag(n.origin, 10) : ""} ${n.emoji} ${esc(n.label)}</button>`).join("")
-    || `<span style="color:var(--ink-soft);font-size:14px">All covered here!</span>`;
+  const ideas = open.slice(top ? 1 : 0);
+  const SHOW = 14;
+  $("needChips").innerHTML = (showAllIdeas ? ideas : ideas.slice(0, SHOW)).map(n =>
+    `<button type="button" class="chip ${n.must ? "must" : ""}" ${pickAttrs(n)} ${n.hint ? `title="${esc(n.hint)}"` : ""}>${n.emoji} ${esc(n.label)}</button>`).join("")
+    + (ideas.length > SHOW ? `<button type="button" class="chip more" data-toggle-ideas>${showAllIdeas ? "Show fewer" : `+ ${ideas.length - SHOW} more ideas`}</button>` : "")
+    || `<span style="color:var(--ink-soft);font-size:14px">All covered!</span>`;
   $("doneChips").innerHTML = status.filter(n => n.by.length).map(n =>
     `<span class="chip done" title="${esc(n.by.map(d => d.who).join(", "))}">${n.emoji} ${esc(n.label)}</span>`).join("") ||
     `<span style="color:var(--ink-soft);font-size:14px">Nothing yet. Be a hero.</span>`;
-
-  // melting-pot balance
-  const total = dishes.length || 1;
-  $("pot").innerHTML = `<span>${flag("us", 14)} ${by.us}</span>
-    <div class="pot-bar" role="img" aria-label="${by.us} Thanksgiving, ${by.other} family recipes, ${by.no} julebord dishes">
-      <i class="us" style="width:${by.us / total * 100}%"></i><i class="ot" style="width:${by.other / total * 100}%"></i><i class="no" style="width:${by.no / total * 100}%"></i>
-    </div><span>${by.no} ${flag("no", 14)}</span>`;
-  const diff = by.us - by.no;
-  $("potCap").textContent = !dishes.length ? "Thanksgiving on the left, julebord on the right"
-    : Math.abs(diff) <= 1 ? "Perfectly blended. Skål! 🥂"
-    : diff > 0 ? "Leaning American. More julebord dishes, please!" : "Leaning Norwegian. More Thanksgiving dishes, please!";
-  if (by.other) $("potCap").textContent += ` · ${by.other} family recipe${by.other > 1 ? "s" : ""} 🌍`;
 
   $("meters").innerHTML = CATEGORIES.filter(c => c.target).map(c => {
     const t = Math.ceil(c.target * scale), n = counts[c.id];
@@ -811,21 +769,17 @@ function renderSuggestions(guestCount) {
   const tips = [];
   const lacking = CATEGORIES.filter(c => c.target && counts[c.id] < Math.ceil(c.target * scale));
   const heavy = CATEGORIES.filter(c => c.target && counts[c.id] > Math.ceil(c.target * scale) * 1.6);
-  if (!dishes.length) tips.push("🦃 Two centerpieces this year: a turkey and a ribbe. Claim one!");
-  if (diff >= 3) tips.push("🇳🇴 Very American so far. The Norwegians need their ribbe, surkål and gløgg!");
-  if (diff <= -3) tips.push("🇺🇸 Very Norwegian so far. Someone bring a turkey and a pumpkin pie!");
+  if (!dishes.length) tips.push("🦃 Start with the turkey. Everything else orbits around it.");
   heavy.forEach(c => lacking.length && tips.push(`🍂 Lots of ${c.label.toLowerCase()} already. Maybe ${lacking.map(l => l.label.toLowerCase()).slice(0, 2).join(" or ")}?`));
-  if (isDone("Pinnekjøtt") && !isDone("Kålrabistappe")) tips.push("🧡 Pinnekjøtt without kålrabistappe? Unthinkable. Who's mashing rutabaga?");
-  if (isDone("Ribbe") && !isDone("Surkål")) tips.push("🥬 Ribbe is coming, so it needs surkål by its side.");
-  if (isDone("Lutefisk")) tips.push("🐟 Someone's bringing lutefisk. Brave. Respect. 🫡");
   if (isDone("Turkey") && !isDone("Gravy")) tips.push("🥄 A turkey with no gravy is a sad turkey.");
-  if (dishes.length >= 4 && !dishes.some(d => /\b(vegan|veggie|vegetar|vegetarian|gluten|gf|glutenfri)\b/i.test(d.dish + " " + (d.note || ""))))
+  if (isDone("Pumpkin pie") && !isDone("Whipped cream")) tips.push("🍦 Pie is coming. Somebody bring the whipped cream.");
+  if (dishes.length >= 4 && !dishes.some(d => /\b(vegan|veggie|vegetarian|gluten|gf)\b/i.test(d.dish + " " + (d.note || ""))))
     tips.push("🌱 Nothing's marked vegan or gluten-free yet. A friendly option helps.");
-  if (counts.Side >= 3 && !isDone("Something green") && !isDone("Surkål") && !isDone("Rødkål"))
-    tips.push("🥗 Very beige so far. Something green would balance the plate.");
+  const greens = ["Green salad", "Roasted root veggies", "Green bean casserole", "Brussels sprouts", "Collard greens", "Creamed spinach"];
+  if (counts.Side >= 3 && !greens.some(isDone)) tips.push("🥗 Very beige so far. Something green would balance the plate.");
   const totalServes = dishes.reduce((s, d) => s + (Number(d.serves) || 0), 0);
   if (guestCount >= 4 && totalServes && totalServes < guestCount * 3) tips.push(`🍽️ About ${totalServes} servings listed for ${guestCount} guests. Bigger batches are welcome.`);
-  $("tips").innerHTML = tips.filter(Boolean).map(t => `<li>${esc(t)}</li>`).join("");
+  $("tips").innerHTML = tips.map(t => `<li>${esc(t)}</li>`).join("");
 }
 
 /* ---- grouped list ---- */
@@ -840,28 +794,27 @@ function renderList() {
     const ds = dishes.filter(d => d.cat === c.id);
     const target = Math.ceil(c.target * scale);
     if (!ds.length && !target) return "";
-    const open = openNeeds.filter(n => n.cat === c.id).slice(0, 4);
+    const open = openNeeds.filter(n => n.cat === c.id).slice(0, 5);
     const rows = ds.map(d => {
-      const meta = [`${flag(d.origin, 11)}${ORIGIN_LABEL[d.origin]}`, esc(d.who), d.serves ? `serves ${esc(d.serves)}` : "", esc(d.note || "")].filter(Boolean).join(" · ");
+      const meta = [esc(d.who), d.serves ? `serves ${esc(d.serves)}` : "", esc(d.note || "")].filter(Boolean).join(" · ");
       return `<tr class="drow">
         <td class="dname"><span class="emo">${guessEmoji(d)}</span>${esc(d.dish)}<div class="m-meta">${meta}</div></td>
-        <td class="trad">${flag(d.origin, 12)}${ORIGIN_LABEL[d.origin]}</td>
         <td class="who">${esc(d.who)}</td>
         <td class="num">${d.serves ? esc(d.serves) : "–"}</td>
         <td class="note">${esc(d.note || "")}</td>
         <td class="rm">${canRemove(d) ? `<button class="btn-sm" data-remove="${esc(d.id)}" aria-label="Remove ${esc(d.dish)}">✕</button>` : ""}</td>
       </tr>`;
     }).join("");
-    const openRow = open.length && (ds.length < target || open.some(n => n.must)) ? `<tr class="open-row"><td colspan="6">${ds.length ? "Still open:" : "Nobody yet. Ideas:"}
-      <span class="chips">${open.map(n => `<button type="button" class="chip sm ${n.must ? "must" : ""}" data-pick="${esc(n.label)}" data-cat="${n.cat}" data-origin="${n.origin === "any" ? "" : n.origin}">${n.origin !== "any" ? flag(n.origin, 9) : ""} ${esc(n.label)}</button>`).join("")}</span></td></tr>` : "";
+    const openRow = open.length && (ds.length < target || open.some(n => n.must)) ? `<tr class="open-row"><td colspan="5">${ds.length ? "Still open:" : "Nobody yet. Ideas:"}
+      <span class="chips">${open.map(n => `<button type="button" class="chip sm ${n.must ? "must" : ""}" ${pickAttrs(n)}>${n.emoji} ${esc(n.label)}</button>`).join("")}</span></td></tr>` : "";
     return `<tbody>
-      <tr class="course"><th colspan="6" scope="colgroup">${c.emoji} ${c.label}<span class="count ${target && ds.length < target ? "low" : ""}">${ds.length}${target ? ` / ${target}` : ""}</span></th></tr>
+      <tr class="course"><th colspan="5" scope="colgroup">${c.emoji} ${c.label}<span class="count ${target && ds.length < target ? "low" : ""}">${ds.length}${target ? ` / ${target}` : ""}</span></th></tr>
       ${rows}${openRow}
     </tbody>`;
   }).join("");
   const servings = dishes.reduce((s, d) => s + (Number(d.serves) || 0), 0);
   $("list").innerHTML = `<table class="menu">
-    <thead><tr><th scope="col">Dish</th><th scope="col">Tradition</th><th scope="col">Brought by</th><th scope="col" class="num">Serves</th><th scope="col">Notes</th><th scope="col"><span class="sr">Remove</span></th></tr></thead>
+    <thead><tr><th scope="col">Dish</th><th scope="col">Brought by</th><th scope="col" class="num">Serves</th><th scope="col">Notes</th><th scope="col"><span class="sr">Remove</span></th></tr></thead>
     ${body}
     <tfoot><tr><td colspan="3">${dishes.length} dish${dishes.length === 1 ? "" : "es"} · ${new Set(dishes.map(d => d.who.trim())).size} people<span class="m-meta">${servings ? ` · ${servings} servings listed` : ""}</span></td><td class="num">${servings || ""}</td><td colspan="2">${servings ? "servings listed" : ""}</td></tr></tfoot>
   </table>`;
@@ -870,15 +823,13 @@ function renderList() {
 /* ============================================================
    Interactions
    ============================================================ */
-let catTouched = false, originTouched = false;
+let catTouched = false;
 document.addEventListener("click", async e => {
-  const f = e.target.closest("[data-filter]");
-  if (f) { needFilter = f.dataset.filter; $("filter").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === f)); render(); return; }
+  if (e.target.closest("[data-toggle-ideas]")) { showAllIdeas = !showAllIdeas; render(); return; }
   const pick = e.target.closest("[data-pick]");
   if (pick) {
     $("dish").value = pick.dataset.pick;
     $("cat").value = pick.dataset.cat; catTouched = true;
-    if (pick.dataset.origin) { $("origin").value = pick.dataset.origin; originTouched = true; }
     checkDup();
     $("form").scrollIntoView({ behavior: "smooth", block: "center" });
     ($("who").value ? $("dish") : $("who")).focus();
@@ -898,17 +849,15 @@ document.addEventListener("click", async e => {
 });
 
 $("cat").addEventListener("change", () => catTouched = true);
-$("origin").addEventListener("change", () => originTouched = true);
 $("dish").addEventListener("input", () => {
   const g = guess($("dish").value);
   if (!catTouched) $("cat").value = g.cat || "Side";
-  if (!originTouched) $("origin").value = g.origin || "us";
   checkDup();
 });
 function checkDup() {
   const text = $("dish").value.trim();
   if (text.length < 3) { $("dupWarn").innerHTML = ""; return; }
-  const sameNeed = NEEDS.find(n => n.match.some(m => hits(text, m)));
+  const sameNeed = bestNeed(text, $("cat").value);
   const clash = dishes.filter(d => norm(d.dish).trim() === norm(text).trim() || (sameNeed && coveredBy(sameNeed, [d]).length));
   $("dupWarn").innerHTML = clash.length
     ? `<div class="warn">Heads up: <b>${esc(clash.map(d => d.who).join(", "))}</b> ${clash.length > 1 ? "are" : "is"} already bringing <b>${esc(clash[0].dish)}</b>. Doubles are fine, just checking!</div>` : "";
@@ -921,7 +870,6 @@ $("form").addEventListener("submit", async e => {
     who: $("who").value.trim().slice(0, 30),
     dish: $("dish").value.trim().slice(0, 40),
     cat: $("cat").value,
-    origin: $("origin").value,
     serves: $("serves").value ? Number($("serves").value) : null,
     note: $("note").value.trim().slice(0, 80) || null,
   };
@@ -932,9 +880,9 @@ $("form").addEventListener("submit", async e => {
     mine.add(rec.id); safeSet(MINE_KEY, [...mine]); safeSet("friendsgiving-name", row.who);
     justAdded = rec.id;
     ["dish", "serves", "note"].forEach(id => $(id).value = "");
-    $("dupWarn").innerHTML = ""; catTouched = originTouched = false;
-    $("cat").value = "Side"; $("origin").value = "us";
-    $("ok").textContent = `✨ ${row.dish} is on the table. Takk, ${row.who}! Skål! 🥂`;
+    $("dupWarn").innerHTML = ""; catTouched = false;
+    $("cat").value = "Side";
+    $("ok").textContent = `✨ ${row.dish} is on the table. Thanks, ${row.who}! 🦃`;
     setTimeout(() => $("ok").textContent = "", 5000);
     await refresh();
     $("room").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -948,7 +896,6 @@ async function refresh() {
     dishes = (await api.list()).map(d => ({
       ...d,
       cat: CAT[d.cat] ? d.cat : "Other",
-      origin: ["us", "no", "other"].includes(d.origin) ? d.origin : "other",
       created_at: d.created_at || "",
     }));
     render();
