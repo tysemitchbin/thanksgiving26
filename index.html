@@ -20,6 +20,15 @@
     dateLabel: "Saturday, November 28 · Turkey Football and cooking from 12:00, Dinner at 16:00",
     place: "Andelvvegen 13, 2073 Bøn",
   };
+  // The plan for the day, shown near the top. star: true highlights an item.
+  const SCHEDULE = [
+    { time: "12:00", emoji: "🚪", what: "Doors open",   detail: "Hot drinks and snacks, and the football is out" },
+    { time: "12:45", emoji: "🏈", what: "Football",     detail: "In the yard" },
+    { time: "14:00", emoji: "🚶", what: "Turkey trot",  detail: "A short walk, so dress warm" },
+    { time: "16:00", emoji: "🍽️", what: "Dinner",       detail: "", star: true },
+    { time: "17:30", emoji: "🥧", what: "Pie",          detail: "" },
+    { time: "18:30", emoji: "🛋️", what: "Couch time",   detail: "" },
+  ];
   // Shared database (Supabase · Wanderlings project). The publishable key is public by design.
   const SUPABASE_URL = "https://bhjyybdztvmpyzynkvje.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_6nTq00NdMKXR_VJeSS468w_rD31arX2";
@@ -190,6 +199,36 @@ h1 .times { color: var(--fjord); font-weight: 500; padding: 0 .08em; }
 .cancel-edit { appearance: none; border: 0; background: none; font: inherit; font-size: 14px; color: var(--ink-soft); text-decoration: underline; cursor: pointer; display: block; margin: 10px auto 0; }
 .form-editing { box-shadow: 0 0 0 3px var(--pumpkin), var(--shadow); }
 
+/* ---------- the plan ---------- */
+.plan { position: relative; z-index: 1; margin-top: 24px; }
+.plan h2 { font-size: 26px; }
+.timeline { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(var(--n, 7), minmax(0, 1fr)); gap: 10px; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 6%; right: 6%; top: 28px; border-top: 2px dashed #dcc6a3; }
+.timeline li { position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.timeline .dot { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-size: 26px;
+  background: #fff; border: 2px solid var(--line); box-shadow: 0 3px 8px rgba(70,35,10,.12); position: relative; z-index: 1; }
+.timeline .time { font-family: "Fraunces", serif; font-weight: 700; font-size: 20px; color: var(--cranberry); margin-top: 8px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.timeline .what { font-weight: 700; font-size: 15px; line-height: 1.25; margin-top: 2px; }
+.timeline .detail { font-size: 13px; color: var(--ink-soft); line-height: 1.35; margin-top: 2px; }
+.timeline li.star .dot { background: var(--cranberry); border-color: var(--cranberry); box-shadow: 0 0 0 5px rgba(155,35,53,.15), 0 3px 8px rgba(70,35,10,.2); }
+.timeline li.star .what { font-family: "Caveat", cursive; font-size: 26px; color: var(--cranberry); line-height: 1; }
+.timeline li.past > :not(.dot) { opacity: .5; }
+.timeline li.past .dot { background: #f4ece0; filter: grayscale(.7); }
+.timeline li.now .dot { border-color: var(--pumpkin); box-shadow: 0 0 0 5px rgba(217,118,43,.3); }
+.timeline .now-tag { display: inline-block; margin-top: 4px; background: var(--pumpkin); color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; border-radius: 999px; padding: 2px 8px; }
+@media (max-width: 1000px) {
+  .timeline { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .timeline::before { left: 27px; right: auto; top: 20px; bottom: 20px; border-top: 0; border-left: 2px dashed #dcc6a3; }
+  .timeline li { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr); column-gap: 12px; align-items: center; text-align: left; padding: 6px 0; }
+  .timeline .dot { grid-row: span 2; width: 52px; height: 52px; font-size: 24px; margin-left: 2px; }
+  .timeline .time { margin-top: 0; grid-row: span 2; }
+  .timeline .what { margin-top: 0; }
+  .timeline .detail { grid-column: 3; margin-top: 0; align-self: start; }
+  .timeline li:has(.detail) .what { align-self: end; }
+  .timeline li:not(:has(.detail)) .what { grid-row: span 2; }
+  .timeline .now-tag { grid-column: 3; justify-self: start; }
+}
+
 /* ---------- form ---------- */
 label { display: block; font-weight: 700; font-size: 13px; margin: 12px 0 4px; letter-spacing: .02em; }
 input, select { width: 100%; font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px; }
@@ -321,6 +360,12 @@ h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: v
 
 <div class="wrap">
   <div class="band" aria-hidden="true"></div>
+
+  <section class="card plan" aria-labelledby="planHeading">
+    <h2 id="planHeading">The plan</h2>
+    <p class="sub" id="planSub"></p>
+    <ol class="timeline" id="timeline"></ol>
+  </section>
 
   <div class="grid">
     <!-- TABLE -->
@@ -626,6 +671,28 @@ let mine = new Set(safeGet(MINE_KEY, []));
 let justAdded = null;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function renderPlan() {
+  const day = EVENT.date.slice(0, 10);
+  const at = t => new Date(`${day}T${t}:00`);
+  const now = new Date();
+  const label = new Date(`${day}T12:00:00`).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+  $("planSub").textContent = `${label}. Come for all of it or just the food.`;
+  $("timeline").style.setProperty("--n", SCHEDULE.length);
+  $("timeline").innerHTML = SCHEDULE.map((s, i) => {
+    const start = at(s.time);
+    const end = SCHEDULE[i + 1] ? at(SCHEDULE[i + 1].time) : new Date(start.getTime() + 3 * 36e5);
+    const state = now >= end ? "past" : now >= start ? "now" : "";
+    return `<li class="${s.star ? "star" : ""} ${state}">
+      <span class="dot" aria-hidden="true">${s.emoji}</span>
+      <span class="time">${esc(s.time)}</span>
+      <span class="what">${esc(s.what)}</span>
+      ${s.detail ? `<span class="detail">${esc(s.detail)}</span>` : ""}
+      ${state === "now" ? `<span class="now-tag">Happening now</span>` : ""}
+    </li>`;
+  }).join("");
+}
+setInterval(renderPlan, 60000);
 
 function setupHeader() {
   document.title = EVENT.title;
@@ -963,6 +1030,7 @@ async function refresh() {
 
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
 setupHeader();
+renderPlan();
 refresh();
 if (REMOTE) setInterval(() => { if (!document.hidden && !$("tip")) refresh(); }, 15000);
 document.addEventListener("visibilitychange", () => !document.hidden && refresh());
